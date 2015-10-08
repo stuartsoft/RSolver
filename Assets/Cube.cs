@@ -49,8 +49,7 @@ public class Cube : MonoBehaviour {
 
         for (int j = 0; j < iterations; j++){
             for (int i = 0; i < 4; i++){
-                if (i == 3) setSideColor((sides)i, oldColors[0]);
-                else setSideColor((sides)i, oldColors[i + 1]);
+                setSideColor((sides)i, oldColors[(i + 1)%4]);
             }
         }
     }

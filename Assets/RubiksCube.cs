@@ -60,6 +60,9 @@ public class RubiksCube : MonoBehaviour {
         }
         cubeRef[1][1][1].setAllSideColors(Cube.BLACKCOLOR);
 
+
+        cubeRef[0][2][0].rotateY(1);
+
     }
 
     // Update is called once per frame
@@ -83,4 +86,8 @@ public class RubiksCube : MonoBehaviour {
         return face;
     }
 
+    public void rotateFrontFace(int clockwise)
+    {
+
+    }
 }
