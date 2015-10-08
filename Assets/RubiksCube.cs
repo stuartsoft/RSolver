@@ -63,7 +63,8 @@ public class RubiksCube : MonoBehaviour {
 
         //cubeRef[0][2][0].rotateY(1);
         
-        rotateFrontFace(1);
+        rotateBackFace(true);
+        rotateFrontFace(true);
     }
 
     // Update is called once per frame
@@ -71,7 +72,7 @@ public class RubiksCube : MonoBehaviour {
         //transform.Rotate(Time.deltaTime*20, Time.deltaTime * 20, 0.0f);
 	}
 
-    List<List<Cube>> getCubeFrontFace()
+    List<List<Cube>> getCubeXFace(int r)
     {
         List<List<Cube>> face = new List<List<Cube>>();
         for (int i = 0; i < 3; i++)
@@ -79,7 +80,7 @@ public class RubiksCube : MonoBehaviour {
             List<Cube> row = new List<Cube>();
             for (int j = 0; j < 3; j++)
             {
-                Cube tempcube = new Cube(cubeRef[i][j][0].getColors());
+                Cube tempcube = new Cube(cubeRef[i][j][r].getColors());
                 row.Add(tempcube);
                 
             }
@@ -89,13 +90,13 @@ public class RubiksCube : MonoBehaviour {
         return face;
     }
 
-    List<List<CubePiece>> getCubePieceFrontFace()
+    List<List<CubePiece>> getCubePieceXFace(int r)
     {
         List<List<CubePiece>> face = new List<List<CubePiece>>();
         for (int i = 0; i < 3; i++)
         {
             List<CubePiece> row = new List<CubePiece>();
-            for (int j = 0; j < 3; j++){row.Add(cubeRef[i][j][0]);}
+            for (int j = 0; j < 3; j++){row.Add(cubeRef[i][j][r]);}
             face.Add(row);
         }
 
@@ -140,16 +141,37 @@ public class RubiksCube : MonoBehaviour {
     }
 
 
-    public void rotateFrontFace(int clockwise)
+    public void rotateFrontFace(bool clockwise)
     {
-        List<Cube> oldFrontOutline = getOutline(getCubeFrontFace());
-        List<CubePiece> currentFrontOutline = getOutline(getCubePieceFrontFace());
-
-        for (int i = 0; i < 8; i++)
+        int iterations = 1;
+        if (!clockwise) iterations = 3;
+        for (int j = 0; j < iterations; j++)
         {
-            currentFrontOutline[(i+2)%8].setSideColors(oldFrontOutline[i].getColors());
-            currentFrontOutline[(i + 2) % 8].rotateZ(clockwise);
+            List<Cube> oldFrontOutline = getOutline(getCubeXFace(0));
+            List<CubePiece> currentFrontOutline = getOutline(getCubePieceXFace(0));
+            for (int i = 0; i < 8; i++)
+            {
+                currentFrontOutline[(i + 2) % 8].setSideColors(oldFrontOutline[i].getColors());
+                currentFrontOutline[(i + 2) % 8].rotateZ();
+            }
         }
+    }
 
+    public void rotateBackFace(bool clockwise)
+    {
+        int iterations = 1;
+        if (!clockwise) iterations = 3;
+        for (int j = 0; j < iterations; j++)
+        {
+            List<Cube> oldFrontOutline = getOutline(getCubeXFace(2));
+            List<CubePiece> currentFrontOutline = getOutline(getCubePieceXFace(2));
+            for (int i = 0; i < 8; i++)
+            {
+                currentFrontOutline[i].setSideColors(oldFrontOutline[(i + 2) % 8].getColors());
+                currentFrontOutline[i].rotateZ();
+                currentFrontOutline[i].rotateZ();
+                currentFrontOutline[i].rotateZ();
+            }
+        }
     }
 }

@@ -53,58 +53,33 @@ public class Cube
         return tempcolors;
     }
 
-    public void rotateY(int clockwise)
+    public void rotateY()
     {
         List<Color> oldColors = getColors();
-        int iterations = 0;
-        if (clockwise == 1)
-            iterations = 1;
-        else
-            iterations = 3;
-
-        for (int j = 0; j < iterations; j++)
+        for (int i = 0; i < 4; i++)
         {
-            for (int i = 0; i < 4; i++)
-            {
-                setSideColor((sides)i, oldColors[(i + 1) % 4]);
-            }
+            setSideColor((sides)i, oldColors[(i + 1) % 4]);
         }
     }
 
-    public void rotateX(int clockwise)
+    public void rotateX()
     {
         List<Color> oldColors = getColors();
-        int iterations = 0;
-        if (clockwise == 1)
-            iterations = 1;
-        else
-            iterations = 3;
-
-        for (int j = 0; j < iterations; j++)
-        {
-            setSideColor(sides.TOP, oldColors[(int)sides.FRONT]);
-            setSideColor(sides.BACK, oldColors[(int)sides.TOP]);
-            setSideColor(sides.BOTTOM, oldColors[(int)sides.BACK]);
-            setSideColor(sides.FRONT, oldColors[(int)sides.BOTTOM]);
-        }
+        
+        setSideColor(sides.TOP, oldColors[(int)sides.FRONT]);
+        setSideColor(sides.BACK, oldColors[(int)sides.TOP]);
+        setSideColor(sides.BOTTOM, oldColors[(int)sides.BACK]);
+        setSideColor(sides.FRONT, oldColors[(int)sides.BOTTOM]);
     }
 
-    public void rotateZ(int clockwise)
+    public void rotateZ()
     {
         List<Color> oldColors = getColors();
-        int iterations = 0;
-        if (clockwise == 1)
-            iterations = 1;
-        else
-            iterations = 3;
 
-        for (int j = 0; j < iterations; j++)
-        {
-            setSideColor(sides.TOP, oldColors[(int)sides.LEFT]);
-            setSideColor(sides.RIGHT, oldColors[(int)sides.TOP]);
-            setSideColor(sides.BOTTOM, oldColors[(int)sides.RIGHT]);
-            setSideColor(sides.LEFT, oldColors[(int)sides.BOTTOM]);
-        }
+        setSideColor(sides.TOP, oldColors[(int)sides.LEFT]);
+        setSideColor(sides.RIGHT, oldColors[(int)sides.TOP]);
+        setSideColor(sides.BOTTOM, oldColors[(int)sides.RIGHT]);
+        setSideColor(sides.LEFT, oldColors[(int)sides.BOTTOM]);
     }
 
     public void setSideColor(sides side, Color c)

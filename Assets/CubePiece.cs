@@ -30,23 +30,23 @@ public class CubePiece : MonoBehaviour
         return cube.getColors();
     }
 
-    public void rotateY(int clockwise)
+    public void rotateY()
     {
-        cube.rotateY(clockwise);
+        cube.rotateY();
         updatePanels();
 
     }
 
-    public void rotateX(int clockwise)
+    public void rotateX()
     {
-        cube.rotateX(clockwise);
+        cube.rotateX();
         updatePanels();
 
     }
 
-    public void rotateZ(int clockwise)
+    public void rotateZ()
     {
-        cube.rotateZ(clockwise);
+        cube.rotateZ();
         updatePanels();
 
     }
