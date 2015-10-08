@@ -104,4 +104,25 @@ public class RubiksCube {
 
     }
 
+    public void rotateBackFace(bool clockwise)
+    {
+        int iterations = 1;
+        if (!clockwise) iterations = 3;
+        for (int j = 0; j < iterations; j++)
+        {
+            List<Cube> oldFrontOutline = getOutline(getCubeXFace(2, false));
+            List<Cube> currentFrontOutline = getOutline(getCubeXFace(2, true));
+
+            for (int i = 0; i < 8; i++)
+            {
+                currentFrontOutline[i].setSideColors(oldFrontOutline[(i + 2)%8].getColors());
+                currentFrontOutline[i].rotateZ();
+                currentFrontOutline[i].rotateZ();
+                currentFrontOutline[i].rotateZ();
+
+            }
+        }
+
+    }
+
 }

@@ -34,7 +34,7 @@ public class RubiksCubePrefab : MonoBehaviour {
             cubePrefabMatrix.Add(PrefabRow);
         }
 
-        RC.rotateFrontFace(true);
+        RC.rotateBackFace(true);
         //RC.cubeMatrix[0][1][0].setAllSideColors(Cube.BLACKCOLOR);
         RefreshPanels();
     }
@@ -42,6 +42,7 @@ public class RubiksCubePrefab : MonoBehaviour {
     void Update()
     {
         transform.Rotate(Time.deltaTime * 20, Time.deltaTime * 20, 0);
+
     }
 
 
