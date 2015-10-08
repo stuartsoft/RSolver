@@ -13,7 +13,7 @@ public class Cube
     public static Color YELLOWCOLOR { get { return Color.yellow; } }
     public static Color WHITECOLOR { get { return Color.white; } }
     public static Color BLACKCOLOR { get { return Color.black; } }
-    public List<Color> colors = new List<Color>();
+    List<Color> colors = new List<Color>();
 
     public Cube()
     {

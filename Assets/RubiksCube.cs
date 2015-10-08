@@ -2,77 +2,50 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class RubiksCube : MonoBehaviour {
-
-    public GameObject CubePrefab;
-
-    public List<List<List<GameObject>>> cubePrefabMatrix;
-    public List<List<List<CubePiece>>> cubeRef;
-    public float spacing = 1.05f;
+public class RubiksCube {
+    public List<List<List<Cube>>> cubeMatrix;
 
     // Use this for initialization
-    void Start () {
-        cubePrefabMatrix = new List<List<List<GameObject>>>();
-        cubeRef = new List<List<List<CubePiece>>>();
+    public RubiksCube()
+    {
+        cubeMatrix = new List<List<List<Cube>>>();
 
         for (int x = 0; x < 3; x++)
         {
-            List<List<GameObject>> GOPlane = new List<List<GameObject>>();
-            List<List<CubePiece>> CubePlane = new List<List<CubePiece>>();
+            List<List<Cube>> CubeRow = new List<List<Cube>>();
             for (int y = 0; y < 3; y++)
             {
-                List<GameObject> GORow = new List<GameObject>();
-                List<CubePiece> CubeRow = new List<CubePiece>();
+                List<Cube> CubeColumn = new List<Cube>();
                 for (int z = 0; z < 3; z++)
                 {
-                    //yield return new WaitForSeconds(0.1f);
-                    //yield return null;
-                    GameObject cubePrefab = Instantiate(CubePrefab, Vector3.zero, Quaternion.identity) as GameObject;
-                    cubePrefab.transform.SetParent(transform);
-                    cubePrefab.transform.position = new Vector3((x - 1), (y - 1), (z - 1)) * spacing;
-
-                    CubePiece temp = cubePrefab.GetComponent<CubePiece>();
-
-                    temp.setAllSideColors(Cube.BLACKCOLOR);
-                    GORow.Add(cubePrefab);
-                    CubeRow.Add(temp);
-
+                    Cube tempcube = new Cube();
+                    tempcube.setAllSideColors(Cube.BLACKCOLOR);
+                    CubeColumn.Add(tempcube);
                 }
-                GOPlane.Add(GORow);
-                CubePlane.Add(CubeRow);
+                CubeRow.Add(CubeColumn);
             }
-            cubePrefabMatrix.Add(GOPlane);
-            cubeRef.Add(CubePlane);
+            cubeMatrix.Add(CubeRow);
         }
         //transform.rotation = Quaternion.Euler(new Vector3(45,0,45));
-
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 3; j++)
             {
-                cubeRef[i][j][0].setSideColor(Cube.sides.FRONT, Cube.REDCOLOR);
-                cubeRef[2][i][j].setSideColor(Cube.sides.RIGHT, Cube.BLUECOLOR);
-                cubeRef[0][i][j].setSideColor(Cube.sides.LEFT, Cube.GREENCOLOR);
-                cubeRef[i][j][2].setSideColor(Cube.sides.BACK, Cube.ORANGECOLOR);
-                cubeRef[i][2][j].setSideColor(Cube.sides.TOP, Cube.WHITECOLOR);
-                cubeRef[i][0][j].setSideColor(Cube.sides.BOTTOM, Cube.YELLOWCOLOR);
+                cubeMatrix[i][j][0].setSideColor(Cube.sides.FRONT, Cube.REDCOLOR);
+                cubeMatrix[2][i][j].setSideColor(Cube.sides.RIGHT, Cube.BLUECOLOR);
+                cubeMatrix[0][i][j].setSideColor(Cube.sides.LEFT, Cube.GREENCOLOR);
+                cubeMatrix[i][j][2].setSideColor(Cube.sides.BACK, Cube.ORANGECOLOR);
+                cubeMatrix[i][2][j].setSideColor(Cube.sides.TOP, Cube.WHITECOLOR);
+                cubeMatrix[i][0][j].setSideColor(Cube.sides.BOTTOM, Cube.YELLOWCOLOR);
             }
         }
-        cubeRef[1][1][1].setAllSideColors(Cube.BLACKCOLOR);
-
-
-        //cubeRef[0][2][0].rotateY(1);
+        cubeMatrix[1][1][1].setAllSideColors(Cube.BLACKCOLOR);
         
-        rotateBackFace(true);
-        rotateFrontFace(true);
+        //rotateBackFace(true);
+        //rotateFrontFace(true);
     }
 
-    // Update is called once per frame
-    void Update () {
-        //transform.Rotate(Time.deltaTime*20, Time.deltaTime * 20, 0.0f);
-	}
-
-    List<List<Cube>> getCubeXFace(int r)
+    List<List<Cube>> getCubeXFace(int r, bool reference)
     {
         List<List<Cube>> face = new List<List<Cube>>();
         for (int i = 0; i < 3; i++)
@@ -80,23 +53,13 @@ public class RubiksCube : MonoBehaviour {
             List<Cube> row = new List<Cube>();
             for (int j = 0; j < 3; j++)
             {
-                Cube tempcube = new Cube(cubeRef[i][j][r].getColors());
-                row.Add(tempcube);
-                
+                if (reference)
+                    row.Add(cubeMatrix[i][j][r]);
+                else{
+                    Cube tempcube = new Cube(cubeMatrix[i][j][r].getColors());
+                    row.Add(tempcube);
+                }
             }
-            face.Add(row);
-        }
-
-        return face;
-    }
-
-    List<List<CubePiece>> getCubePieceXFace(int r)
-    {
-        List<List<CubePiece>> face = new List<List<CubePiece>>();
-        for (int i = 0; i < 3; i++)
-        {
-            List<CubePiece> row = new List<CubePiece>();
-            for (int j = 0; j < 3; j++){row.Add(cubeRef[i][j][r]);}
             face.Add(row);
         }
 
@@ -109,23 +72,6 @@ public class RubiksCube : MonoBehaviour {
         //the list is ordered in a clockwise direction, starting with the lower left cube [0][0]
         //getOutline returns a list of references to the origional matrix
         List<Cube> outline = new List<Cube>();
-        for (int i = 0; i < 3; i++) {
-            outline.Add(face[0][i]);
-        }
-        outline.Add(face[1][2]);
-        for (int i = 2; i >= 0; i--){
-            outline.Add(face[2][i]);
-        }
-        outline.Add(face[1][0]);
-
-        return outline;
-    }
-    List<CubePiece> getOutline(List<List<CubePiece>> face)
-    {
-        //converts a 2d matrix of cubes to a linear list of the outline cubes of the provided face
-        //the list is ordered in a clockwise direction, starting with the lower left cube [0][0]
-        //getOutline returns a list of references to the origional matrix
-        List<CubePiece> outline = new List<CubePiece>();
         for (int i = 0; i < 3; i++)
         {
             outline.Add(face[0][i]);
@@ -139,39 +85,23 @@ public class RubiksCube : MonoBehaviour {
 
         return outline;
     }
-
-
+    
     public void rotateFrontFace(bool clockwise)
     {
         int iterations = 1;
         if (!clockwise) iterations = 3;
         for (int j = 0; j < iterations; j++)
         {
-            List<Cube> oldFrontOutline = getOutline(getCubeXFace(0));
-            List<CubePiece> currentFrontOutline = getOutline(getCubePieceXFace(0));
+            List<Cube> oldFrontOutline = getOutline(getCubeXFace(0,false));
+            List<Cube> currentFrontOutline = getOutline(getCubeXFace(0,true));
+
             for (int i = 0; i < 8; i++)
             {
                 currentFrontOutline[(i + 2) % 8].setSideColors(oldFrontOutline[i].getColors());
                 currentFrontOutline[(i + 2) % 8].rotateZ();
             }
         }
+
     }
 
-    public void rotateBackFace(bool clockwise)
-    {
-        int iterations = 1;
-        if (!clockwise) iterations = 3;
-        for (int j = 0; j < iterations; j++)
-        {
-            List<Cube> oldFrontOutline = getOutline(getCubeXFace(2));
-            List<CubePiece> currentFrontOutline = getOutline(getCubePieceXFace(2));
-            for (int i = 0; i < 8; i++)
-            {
-                currentFrontOutline[i].setSideColors(oldFrontOutline[(i + 2) % 8].getColors());
-                currentFrontOutline[i].rotateZ();
-                currentFrontOutline[i].rotateZ();
-                currentFrontOutline[i].rotateZ();
-            }
-        }
-    }
 }
