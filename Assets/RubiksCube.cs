@@ -59,10 +59,28 @@ public class RubiksCube : MonoBehaviour {
             }
         }
         cubeRef[1][1][1].setAllSideColors(Cube.BLACKCOLOR);
+
     }
 
     // Update is called once per frame
     void Update () {
-        transform.Rotate(Time.deltaTime*20, Time.deltaTime * 20, 0.0f);
+        //transform.Rotate(Time.deltaTime*20, Time.deltaTime * 20, 0.0f);
 	}
+
+    List<List<Cube>> getFrontFace()
+    {
+        List<List<Cube>> face = new List<List<Cube>>();
+        for (int i = 0; i < 3; i++)
+        {
+            List<Cube> row = new List<Cube>();
+            for (int j= 0; j < 3; j++)
+            {
+                row.Add(cubeRef[i][j][0]);
+            }
+            face.Add(row);
+        }
+
+        return face;
+    }
+
 }
