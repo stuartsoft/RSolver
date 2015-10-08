@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Cube : MonoBehaviour {
+public class Cube
+{
 
-    public enum sides { FRONT=0, LEFT=1, BACK=2, RIGHT=3, TOP=4, BOTTOM=5 };
+    public enum sides { FRONT = 0, LEFT = 1, BACK = 2, RIGHT = 3, TOP = 4, BOTTOM = 5 };
     public static Color REDCOLOR { get { return Color.red; } }
     public static Color BLUECOLOR { get { return Color.blue; } }
     public static Color GREENCOLOR { get { return Color.green; } }
@@ -12,30 +13,44 @@ public class Cube : MonoBehaviour {
     public static Color YELLOWCOLOR { get { return Color.yellow; } }
     public static Color WHITECOLOR { get { return Color.white; } }
     public static Color BLACKCOLOR { get { return Color.black; } }
-    public List<GameObject> panels = new List<GameObject>();
+    public List<Color> colors = new List<Color>();
 
-    void Start()
+    public Cube()
     {
-        
+        for (int i = 0; i < 6; i++) { colors.Add(BLACKCOLOR); }
+        setAllSideColors(BLACKCOLOR);
+    }
+
+    public Cube(List<Color> c)
+    {
+        for (int i = 0; i < 6; i++) { colors.Add(BLACKCOLOR); }
+        setSideColors(c);
+    }
+
+    public void setSideColors(List<Color> colors)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            setSideColor((sides)i, colors[i]);
+        }
     }
 
     public void setAllSideColors(Color c)
     {
-        for (int i = 0; i < panels.Count; i++)
+        for (int i = 0; i < colors.Count; i++)
         {
-            setSideColor((sides) i, c);
+            setSideColor((sides)i, c);
         }
     }
 
     public List<Color> getColors()
     {
-        List<Color> tempColors = new List<Color>();
-        for (int i = 0; i < panels.Count; i++)
+        List<Color> tempcolors = new List<Color>();
+        for (int i = 0; i < colors.Count; i++)
         {
-            Renderer rend = panels[i].GetComponent<Renderer>();
-            tempColors.Add(rend.material.color);
+            tempcolors.Add(colors[i]); 
         }
-        return tempColors;
+        return tempcolors;
     }
 
     public void rotateY(int clockwise)
@@ -47,9 +62,11 @@ public class Cube : MonoBehaviour {
         else
             iterations = 3;
 
-        for (int j = 0; j < iterations; j++){
-            for (int i = 0; i < 4; i++){
-                setSideColor((sides)i, oldColors[(i + 1)%4]);
+        for (int j = 0; j < iterations; j++)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                setSideColor((sides)i, oldColors[(i + 1) % 4]);
             }
         }
     }
@@ -90,16 +107,13 @@ public class Cube : MonoBehaviour {
         }
     }
 
-    public void setSideColor(sides side, Color c) {
-        Renderer rend = panels[(int)side].GetComponent<Renderer>();
-        rend.enabled = true;
-        rend.material.color = c;
+    public void setSideColor(sides side, Color c)
+    {
+        colors[(int)side] = c;
     }
 
     public Color getColor(sides side)
     {
-        Renderer rend = panels[(int)side].GetComponent<Renderer>();
-        return rend.material.color;
+        return colors[(int)side];
     }
-    
 }
