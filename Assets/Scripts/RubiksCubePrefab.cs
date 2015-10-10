@@ -35,7 +35,7 @@ public class RubiksCubePrefab : MonoBehaviour {
         }
 
         //RC.RunSequence(0);
-        RC.TurnCubeZ(transform);
+        RC.TurnCubeZ(false);
 
         RefreshPanels();
 
