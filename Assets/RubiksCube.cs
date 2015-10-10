@@ -6,9 +6,23 @@ public class RubiksCube
 {
     public List<List<List<Cube>>> cubeMatrix;
 
+    public List<string> sequences;
+
     // Use this for initialization
     public RubiksCube()
     {
+        sequences = new List<string>();
+        sequences.Add("RiUFiUi");
+        sequences.Add("RiDiRD");
+        sequences.Add("URUiRiUiFiUF");
+        sequences.Add("UiLiULUFUiFi");
+        sequences.Add("FURUiRiFi");
+        sequences.Add("FRURiUiFi");
+        sequences.Add("RURiURUURi");
+        sequences.Add("RiFRiBBRFiRiBBRRUi");
+        sequences.Add("FFULRiFFLiRUFF");
+        sequences.Add("FFUiLRiFFLiRUiFF");
+
         cubeMatrix = new List<List<List<Cube>>>();
 
         for (int x = 0; x < 3; x++)
@@ -286,6 +300,43 @@ public class RubiksCube
 
         //cube was not found. Something is wrong if you're looking for a cube that doesn't exist
         throw new System.ArgumentException("No such cube exists with colors provided");
-
     }
+
+    public int RunSequence(int s)
+    {
+        string seq = sequences[s];
+        int cost = 0;
+        int step = 0;
+        while (step < seq.Length)
+        {
+            char c = seq[step];
+            bool clockwise = true;
+            if (step+1 < seq.Length) {
+                if (seq[step + 1] == 'i')
+                {
+                    clockwise = false;
+                    step++;//increment past inverse character
+                }
+            }
+
+            if (c == 'R')
+                rotateRightFace(clockwise);
+            else if (c == 'L')
+                rotateLeftFace(clockwise);
+            else if (c == 'U')
+                rotateTopFace(clockwise);
+            else if (c == 'D')
+                rotateBottomFace(clockwise);
+            else if (c == 'F')
+                rotateFrontFace(clockwise);
+            else if (c == 'B')
+                rotateBackFace(clockwise);
+
+            step++;
+            cost++;
+        }
+
+        return cost;
+    }
+
 }

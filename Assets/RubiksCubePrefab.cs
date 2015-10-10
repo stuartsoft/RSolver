@@ -34,14 +34,16 @@ public class RubiksCubePrefab : MonoBehaviour {
             cubePrefabMatrix.Add(PrefabRow);
         }
 
-        Debug.Log(RC.sideCubeWithColors(Cube.REDCOLOR, Cube.WHITECOLOR));
-        //RC.cubeMatrix[0][1][0].setAllSideColors(Cube.BLACKCOLOR);
+        RC.RunSequence(1);
+
         RefreshPanels();
+
+        transform.rotation = Quaternion.Euler(45, 45, 0);
     }
 
     void Update()
     {
-        transform.Rotate(Time.deltaTime * 20, Time.deltaTime * 20, 0);
+        //transform.Rotate(Time.deltaTime * 20, Time.deltaTime * 20, 0);
     }
 
 

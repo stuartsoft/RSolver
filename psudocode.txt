@@ -1,0 +1,92 @@
+"white" cross
+for each (edge position on the white face)
+find edge piece that fills that position
+change orientation, looking at nonwhite face
+move that piece into that position
+if not on it's own color's face and not on the bottom face
+if it's in the top position
+rotate until it's on the bottom or its color's face
+if it's not in the top position
+change orientation to look at the opposite face 
+use premade sequence X (left or right)
+revert orientation
+then, if piece is on bottom face
+rotate until its on it's color's face
+then, if piece is on that face
+rotate until correct
+if piece is oriented incorrectly
+fix it (premade sequence stage 1)
+ 
+"white" corners
+for each (corner position on the white face)
+orient to look at the left of the two nonwhite faces on that corner
+find corner piece that fills that position
+move that piece into that position
+if on the white face, but not the right corner
+orient to look at one of the faces that the piece is on
+use sequence X (left or right)
+revert orientation
+then, if on bottom face
+rotate bottom until that piece is on left bottom corner of face we're looking at
+change orient to look at other nonwhite face of desired piece
+use X (left)
+until piece is oriented correctly
+use X (left)
+rotate bottom counterclock
+repeat
+ 
+middle band
+for each (position in the middle row)
+find piece that fits that position
+change orientation to look at left of the two faces for that position
+set up the piece
+if piece if in the middle row (in wrong spot or wrong orientation)
+change orientation to look at on of the faces that piece is on (if needed)
+use premade sequence to move a different piece into the spot the desired piece is in
+(this will force the desired piece out onto the yellow face
+then, if piece is on yellow face
+rotate yellow face until color of side face of edge piece matches center square of face
+use premade sequence codename pickles
+ 
+yellow face
+change orientation to look at yellow face
+repeat until complete yellow face
+if two adjacent corners have yellow facing us
+rotate orientation so that the two adjacent corners are on "top"
+if one corner has yellow facing us (or two nonadjacent corners)
+rotate orientation so that yellow corner is on "bottom left" of yellow face
+if no corners have yellow facing us
+rotate orientation so that yellow is on left face
+apply sequence pineapple
+ 
+fixing the last bits
+first part
+rotate top until at least 2 corners match their faces
+if the only two correct corners are nonadjacent
+use sequence potato
+(this will force two adjacent correct corners)
+orient so that two adjacent correct corners are in back
+use sequence potato
+second part
+(now all corners should be correct, need to fix yellow edge pieces)
+SUBOPTIMAL
+repeat sequence celery clockwise until solved
+more optimal
+if all four edges are wrong
+apply sequence celery (either direction)
+if 3 edges are wrong
+orient so that the correct side is on the back
+determine whether the remaining sides need to cycle clockwise or counterclockwise
+apply sequence celery in the correct direction
+ 
+premade sequences
+X (left or right)
+if left
+move front counterclock
+move bottom clock
+move front clock
+if right
+move front clock
+move bottom clock
+move front counterclock
+
