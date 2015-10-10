@@ -1,0 +1,23 @@
+Sequence A = Ri, U, Fi, Ui //getting a side piece reoriented in stage 2
+
+=====Stage 3
+Sequence B = Ri, Di, R, D  //getting a corner piece oriented in place when it is already in place or directly below where it belongs
+
+=====Stage 4
+Sequence C = U, R, Ui, Ri, Ui, Fi, U, F //getting a side piece from the 1,2,0 position to the 2,1,0 position
+
+Sequence D = Ui, Li, U, L, U, F, Ui, Fi //getting a side piece from the 1,2,0 position to the 0,1,0 position
+
+=====Stage 5
+Sequence E = F,U,R,Ui,Ri,Fi //used to get from a single yellow cube on top to a yellow plus. Also used to get from a backwards yellow L to a yellow plus.
+
+Sequence F = F, R, U, Ri, Ui, Fi //used to get from a line of yellow cubes on top to a yellow plus
+
+Sequence G = R, U, Ri, U, R, U, U, Ri //used to get from a yellow corss or pattern to all yellow on the top face
+
+=====Stage 6
+Sequence H = Ri, F, Ri, B, B, R, Fi, Ri, B, B, R, R, Ui //used to get from two yellow corners solved to all yellow corners solved
+
+Sequence I = F, F, U, L, Ri, F, F, Li, R, U, F, F //Rotates the side pieces on the top layer clockwise
+
+Sequence J = F, F, Ui, L, Ri, F, F, Li, R, Ui, F, F //Rotates the side pieces on the top layer clockwise
