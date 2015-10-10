@@ -241,4 +241,27 @@ public class RubiksCube
         }
     }
 
+    public Vector3 cornerPieceWithColors(Color a, Color b, Color c)
+    {
+        if (a == b || b == c || c == a)
+            throw new System.ArgumentException("No two colors in query can be the same");
+
+        for (int i= 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    if (cubeMatrix[i][j][k].containsColors(a, b, c))
+                    {
+                        return new Vector3(i, j, k);
+                    }
+                }
+            }
+        }
+
+        //cube was not found. Something is wrong if you're looking for a cube that doesn't exist
+        throw new System.ArgumentException("No such cube exists with colors provided");
+
+    }
 }

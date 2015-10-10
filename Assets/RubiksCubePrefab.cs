@@ -34,11 +34,7 @@ public class RubiksCubePrefab : MonoBehaviour {
             cubePrefabMatrix.Add(PrefabRow);
         }
 
-        RC.rotateBackFace(true);
-        RC.rotateLeftFace(true);
-        RC.rotateRightFace(true);
-        RC.rotateTopFace(true);
-        RC.rotateBottomFace(true);
+        Debug.Log(RC.cornerPieceWithColors(Cube.REDCOLOR, Cube.WHITECOLOR, Cube.GREENCOLOR));
         //RC.cubeMatrix[0][1][0].setAllSideColors(Cube.BLACKCOLOR);
         RefreshPanels();
     }
