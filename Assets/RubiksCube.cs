@@ -90,6 +90,28 @@ public class RubiksCube
         return face;
     }
 
+    List<List<Cube>> getCubeZFace(int r, bool reference)
+    {
+        List<List<Cube>> face = new List<List<Cube>>();
+        for (int i = 0; i < 3; i++)
+        {
+            List<Cube> row = new List<Cube>();
+            for (int j = 0; j < 3; j++)
+            {
+                if (reference)
+                    row.Add(cubeMatrix[i][r][j]);
+                else
+                {
+                    Cube tempcube = new Cube(cubeMatrix[i][r][j].getColors());
+                    row.Add(tempcube);
+                }
+            }
+            face.Add(row);
+        }
+
+        return face;
+    }
+
     List<Cube> getOutline(List<List<Cube>> face)
     {
         //converts a 2d matrix of cubes to a linear list of the outline cubes of the provided face
@@ -179,6 +201,42 @@ public class RubiksCube
                 currentFrontOutline[(i + 2) % 8].rotateX();
                 currentFrontOutline[(i + 2) % 8].rotateX();
 
+            }
+        }
+    }
+
+    public void rotateTopFace(bool clockwise)
+    {
+        int iterations = 1;
+        if (!clockwise) iterations = 3;
+        for (int j = 0; j < iterations; j++)
+        {
+            List<Cube> oldFrontOutline = getOutline(getCubeZFace(2, false));
+            List<Cube> currentFrontOutline = getOutline(getCubeZFace(2, true));
+
+            for (int i = 0; i < 8; i++)
+            {
+                currentFrontOutline[(i+2)%8].setSideColors(oldFrontOutline[i].getColors());
+                currentFrontOutline[(i + 2) % 8].rotateY();
+                currentFrontOutline[(i + 2) % 8].rotateY();
+                currentFrontOutline[(i + 2) % 8].rotateY();
+            }
+        }
+    }
+
+    public void rotateBottomFace(bool clockwise)
+    {
+        int iterations = 1;
+        if (!clockwise) iterations = 3;
+        for (int j = 0; j < iterations; j++)
+        {
+            List<Cube> oldFrontOutline = getOutline(getCubeZFace(0, false));
+            List<Cube> currentFrontOutline = getOutline(getCubeZFace(0, true));
+
+            for (int i = 0; i < 8; i++)
+            {
+                currentFrontOutline[i].setSideColors(oldFrontOutline[(i+2)%8].getColors());
+                currentFrontOutline[i].rotateY();
             }
         }
     }
