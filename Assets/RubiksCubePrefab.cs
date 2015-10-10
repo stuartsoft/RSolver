@@ -34,7 +34,7 @@ public class RubiksCubePrefab : MonoBehaviour {
             cubePrefabMatrix.Add(PrefabRow);
         }
 
-        Debug.Log(RC.cornerPieceWithColors(Cube.REDCOLOR, Cube.WHITECOLOR, Cube.GREENCOLOR));
+        Debug.Log(RC.sideCubeWithColors(Cube.REDCOLOR, Cube.WHITECOLOR));
         //RC.cubeMatrix[0][1][0].setAllSideColors(Cube.BLACKCOLOR);
         RefreshPanels();
     }

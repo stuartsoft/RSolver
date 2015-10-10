@@ -107,4 +107,16 @@ public class Cube
 
         return (matchedColors == list.Length);
     }
+
+    public int numColors()//number of colors on this piece that are not black
+    {
+        int num = 0;
+        for (int i = 0; i < 6; i++)
+        {
+            if (colors[i] != BLACKCOLOR)
+                num++;
+        }
+
+        return num;
+    }
 }
