@@ -34,12 +34,8 @@ public class RubiksCubePrefab : MonoBehaviour {
             cubePrefabMatrix.Add(PrefabRow);
         }
 
-        //RC.turnCubeX(true);
-        //RC.turnCubeY(true);
-        //RC.turnCubeZ(true);
-        //RC.rotateRightFace(true);
-        RC.RunSequence(10);
-        Debug.Log(RC.isSolved());
+        RC.Scramble(50);
+
         RefreshPanels();
 
         //transform.rotation = Quaternion.Euler(45, 45, 30);

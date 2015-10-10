@@ -422,13 +422,20 @@ public class RubiksCube
     public int RunSequence(int s)
     {
         string seq = sequences[s];
+        int cost = RunCustomSequence(seq);
+        return cost;
+    }
+
+    int RunCustomSequence(string seq)
+    {
         int cost = 0;
         int step = 0;
         while (step < seq.Length)
         {
             char c = seq[step];
             bool clockwise = true;
-            if (step+1 < seq.Length) {
+            if (step + 1 < seq.Length)
+            {
                 if (seq[step + 1] == 'i')
                 {
                     clockwise = false;
@@ -455,5 +462,30 @@ public class RubiksCube
 
         return cost;
     }
+
+    public void Scramble(int turns)
+    {
+        string seq = "";
+        List<string> moves = new List<string>();
+        moves.Add("R");
+        moves.Add("L");
+        moves.Add("U");
+        moves.Add("D");
+        moves.Add("F");
+        moves.Add("B");
+        
+        for (int i = 0; i < turns; i++)
+        {
+            int j = ((int)(Random.value * 32676)) % 6;//select move
+            int k = ((int)(Random.value * 32676)) % 2;//select clockwise
+
+            seq += moves[j];
+            if (k == 0)
+                seq += "i";
+        }
+
+        RunCustomSequence(seq);
+    }
+
 
 }
