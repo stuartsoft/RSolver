@@ -276,6 +276,23 @@ public class RubiksCube
         }
     }
 
+    void rotateMiddleXZFace(bool clockwise)//clockwise is relative to bottom face
+    {
+        int iterations = 1;
+        if (!clockwise) iterations = 3;
+        for (int j = 0; j < iterations; j++)
+        {
+            List<Cube> oldFrontOutline = getOutline(getCubeZFace(1, false));
+            List<Cube> currentFrontOutline = getOutline(getCubeZFace(1, true));
+
+            for (int i = 0; i < 8; i++)
+            {
+                currentFrontOutline[i].setSideColors(oldFrontOutline[(i + 2) % 8].getColors());
+                currentFrontOutline[i].rotateY();
+            }
+        }
+    }
+
     public void rotateBottomFace(bool clockwise)
     {
         int iterations = 1;
@@ -293,18 +310,25 @@ public class RubiksCube
         }
     }
 
-    public void TurnCubeZ(bool clockwise)
+    public void turnCubeZ(bool clockwise)
     {
         rotateFrontFace(clockwise);
         rotateMiddleXYFace(clockwise);
         rotateBackFace(!clockwise);
     }
 
-    public void TurnCubeY(bool clockwise)
+    public void turnCubeX(bool clockwise)
     {
         rotateLeftFace(clockwise);
         rotateMiddleYZFace(clockwise);
         rotateRightFace(!clockwise);
+    }
+
+    public void turnCubeY(bool clockwise)
+    {
+        rotateBottomFace(clockwise);
+        rotateMiddleXZFace(clockwise);
+        rotateTopFace(!clockwise);
     }
 
     public Vector3 cornerCubeWithColors(Color a, Color b, Color c)

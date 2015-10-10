@@ -34,9 +34,9 @@ public class RubiksCubePrefab : MonoBehaviour {
             cubePrefabMatrix.Add(PrefabRow);
         }
 
-        //RC.RunSequence(0);
-        //RC.TurnCubeZ(false);
-        //RC.TurnCubeY(false);
+        //RC.turnCubeX(true);
+        //RC.turnCubeY(true);
+        //RC.turnCubeZ(true);
         RefreshPanels();
 
         //transform.rotation = Quaternion.Euler(45, 45, 30);
