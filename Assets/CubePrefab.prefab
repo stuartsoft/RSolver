@@ -526,7 +526,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 192468}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4b1518d03df84b6782d1ff8fd71ac2e, type: 3}
+  m_Script: {fileID: 11500000, guid: 47172870f43b87d44b33db00359c6e72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   panels:
@@ -544,6 +544,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: panels.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_LocalRotation.y
       value: .818550825
       objectReference: {fileID: 0}
@@ -551,6 +555,30 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: -.574434102
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: panels.Array.data[0]
+      value: 
+      objectReference: {fileID: 161140}
+    - target: {fileID: 0}
+      propertyPath: panels.Array.data[1]
+      value: 
+      objectReference: {fileID: 185620}
+    - target: {fileID: 0}
+      propertyPath: panels.Array.data[2]
+      value: 
+      objectReference: {fileID: 156106}
+    - target: {fileID: 0}
+      propertyPath: panels.Array.data[3]
+      value: 
+      objectReference: {fileID: 110138}
+    - target: {fileID: 0}
+      propertyPath: panels.Array.data[4]
+      value: 
+      objectReference: {fileID: 116276}
+    - target: {fileID: 0}
+      propertyPath: panels.Array.data[5]
+      value: 
+      objectReference: {fileID: 163638}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 192468}
