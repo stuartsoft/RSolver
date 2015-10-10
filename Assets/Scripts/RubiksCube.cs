@@ -60,7 +60,7 @@ public class RubiksCube
         //rotateFrontFace(true);
     }
 
-    List<List<Cube>> getCubeXFace(int r, bool reference)
+    List<List<Cube>> getCubeXYFace(int r, bool reference)
     {
         List<List<Cube>> face = new List<List<Cube>>();
         for (int i = 0; i < 3; i++)
@@ -82,7 +82,7 @@ public class RubiksCube
         return face;
     }
 
-    List<List<Cube>> getCubeYFace(int r, bool reference)
+    List<List<Cube>> getCubeYZFace(int r, bool reference)
     {
         List<List<Cube>> face = new List<List<Cube>>();
         for (int i = 0; i < 3; i++)
@@ -104,7 +104,7 @@ public class RubiksCube
         return face;
     }
 
-    List<List<Cube>> getCubeZFace(int r, bool reference)
+    List<List<Cube>> getCubeXZFace(int r, bool reference)
     {
         List<List<Cube>> face = new List<List<Cube>>();
         for (int i = 0; i < 3; i++)
@@ -152,8 +152,8 @@ public class RubiksCube
         if (!clockwise) iterations = 3;
         for (int j = 0; j < iterations; j++)
         {
-            List<Cube> oldFrontOutline = getOutline(getCubeXFace(0, false));
-            List<Cube> currentFrontOutline = getOutline(getCubeXFace(0, true));
+            List<Cube> oldFrontOutline = getOutline(getCubeXYFace(0, false));
+            List<Cube> currentFrontOutline = getOutline(getCubeXYFace(0, true));
 
             for (int i = 0; i < 8; i++)
             {
@@ -169,8 +169,8 @@ public class RubiksCube
         if (!clockwise) iterations = 3;
         for (int j = 0; j < iterations; j++)
         {
-            List<Cube> oldFrontOutline = getOutline(getCubeXFace(1, false));
-            List<Cube> currentFrontOutline = getOutline(getCubeXFace(1, true));
+            List<Cube> oldFrontOutline = getOutline(getCubeXYFace(1, false));
+            List<Cube> currentFrontOutline = getOutline(getCubeXYFace(1, true));
 
             for (int i = 0; i < 8; i++)
             {
@@ -187,8 +187,8 @@ public class RubiksCube
         if (!clockwise) iterations = 3;
         for (int j = 0; j < iterations; j++)
         {
-            List<Cube> oldFrontOutline = getOutline(getCubeXFace(2, false));
-            List<Cube> currentFrontOutline = getOutline(getCubeXFace(2, true));
+            List<Cube> oldFrontOutline = getOutline(getCubeXYFace(2, false));
+            List<Cube> currentFrontOutline = getOutline(getCubeXYFace(2, true));
 
             for (int i = 0; i < 8; i++)
             {
@@ -206,8 +206,8 @@ public class RubiksCube
         if (!clockwise) iterations = 3;
         for (int j = 0; j < iterations; j++)
         {
-            List<Cube> oldFrontOutline = getOutline(getCubeYFace(2, false));
-            List<Cube> currentFrontOutline = getOutline(getCubeYFace(2, true));
+            List<Cube> oldFrontOutline = getOutline(getCubeYZFace(2, false));
+            List<Cube> currentFrontOutline = getOutline(getCubeYZFace(2, true));
 
             for (int i = 0; i < 8; i++)
             {
@@ -223,8 +223,8 @@ public class RubiksCube
         if (!clockwise) iterations = 3;
         for (int j = 0; j < iterations; j++)
         {
-            List<Cube> oldFrontOutline = getOutline(getCubeYFace(1, false));
-            List<Cube> currentFrontOutline = getOutline(getCubeYFace(1, true));
+            List<Cube> oldFrontOutline = getOutline(getCubeYZFace(1, false));
+            List<Cube> currentFrontOutline = getOutline(getCubeYZFace(1, true));
 
             for (int i = 0; i < 8; i++)
             {
@@ -243,8 +243,8 @@ public class RubiksCube
         if (!clockwise) iterations = 3;
         for (int j = 0; j < iterations; j++)
         {
-            List<Cube> oldFrontOutline = getOutline(getCubeYFace(0, false));
-            List<Cube> currentFrontOutline = getOutline(getCubeYFace(0, true));
+            List<Cube> oldFrontOutline = getOutline(getCubeYZFace(0, false));
+            List<Cube> currentFrontOutline = getOutline(getCubeYZFace(0, true));
 
             for (int i = 0; i < 8; i++)
             {
@@ -263,8 +263,8 @@ public class RubiksCube
         if (!clockwise) iterations = 3;
         for (int j = 0; j < iterations; j++)
         {
-            List<Cube> oldFrontOutline = getOutline(getCubeZFace(2, false));
-            List<Cube> currentFrontOutline = getOutline(getCubeZFace(2, true));
+            List<Cube> oldFrontOutline = getOutline(getCubeXZFace(2, false));
+            List<Cube> currentFrontOutline = getOutline(getCubeXZFace(2, true));
 
             for (int i = 0; i < 8; i++)
             {
@@ -282,8 +282,8 @@ public class RubiksCube
         if (!clockwise) iterations = 3;
         for (int j = 0; j < iterations; j++)
         {
-            List<Cube> oldFrontOutline = getOutline(getCubeZFace(1, false));
-            List<Cube> currentFrontOutline = getOutline(getCubeZFace(1, true));
+            List<Cube> oldFrontOutline = getOutline(getCubeXZFace(1, false));
+            List<Cube> currentFrontOutline = getOutline(getCubeXZFace(1, true));
 
             for (int i = 0; i < 8; i++)
             {
@@ -299,8 +299,8 @@ public class RubiksCube
         if (!clockwise) iterations = 3;
         for (int j = 0; j < iterations; j++)
         {
-            List<Cube> oldFrontOutline = getOutline(getCubeZFace(0, false));
-            List<Cube> currentFrontOutline = getOutline(getCubeZFace(0, true));
+            List<Cube> oldFrontOutline = getOutline(getCubeXZFace(0, false));
+            List<Cube> currentFrontOutline = getOutline(getCubeXZFace(0, true));
 
             for (int i = 0; i < 8; i++)
             {
@@ -376,6 +376,17 @@ public class RubiksCube
 
         //cube was not found. Something is wrong if you're looking for a cube that doesn't exist
         throw new System.ArgumentException("No such cube exists with colors provided");
+    }
+   
+    public void isSolved()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0;j < 3; j++)
+            {
+                
+            }
+        }
     }
 
     public int RunSequence(int s)
