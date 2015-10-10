@@ -273,3 +273,49 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2932d75b410c50742b8fc901f71b4898, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1856608575 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11445522, guid: 2932d75b410c50742b8fc901f71b4898,
+    type: 2}
+  m_PrefabInternal: {fileID: 1441809283}
+  m_Script: {fileID: 11500000, guid: 85bfbfdd0edbc1f4789beddb54b1eb1c, type: 3}
+--- !u!1 &1996831549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1996831551}
+  - 114: {fileID: 1996831550}
+  m_Layer: 0
+  m_Name: Solver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1996831550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1996831549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 825127e75193f3a4285d86ac66687799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RCP: {fileID: 1856608575}
+--- !u!4 &1996831551
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1996831549}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.02002668, y: -4.02311611, z: 1.87343788}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
