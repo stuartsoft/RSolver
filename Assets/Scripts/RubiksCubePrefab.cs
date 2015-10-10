@@ -34,11 +34,11 @@ public class RubiksCubePrefab : MonoBehaviour {
             cubePrefabMatrix.Add(PrefabRow);
         }
 
-        RC.RunSequence(1);
+        //RC.RunSequence(0);
 
         RefreshPanels();
 
-        transform.rotation = Quaternion.Euler(45, 45, 0);
+        transform.rotation = Quaternion.Euler(45, 45, 30);
     }
 
     void Update()
