@@ -23,6 +23,8 @@ public class RubiksCube
         sequences.Add("FFULRiFFLiRUFF");
         sequences.Add("FFUiLRiFFLiRUiFF");
 
+        sequences.Add("LLRRFFBBUUDD");
+
         cubeMatrix = new List<List<List<Cube>>>();
 
         for (int x = 0; x < 3; x++)
@@ -378,15 +380,43 @@ public class RubiksCube
         throw new System.ArgumentException("No such cube exists with colors provided");
     }
    
-    public void isSolved()
+    public bool isSolved()
     {
+        List<List<Cube>> Side;
+        Color c;
+        bool valid = true;
+
+        for (int z = 0; z < 4; z++)//check perimeter
+        {
+            Side = getCubeXYFace(0, true);
+            c = Side[0][0].getColor(Cube.sides.FRONT);
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (Side[i][j].getColor(Cube.sides.FRONT) != c)
+                        valid = false;
+                }
+            }
+
+            turnCubeY(true);
+        }
+
+        //check top side
+        Side = getCubeXZFace(2, true);
+        c = Side[0][0].getColor(Cube.sides.TOP);
         for (int i = 0; i < 3; i++)
         {
-            for (int j = 0;j < 3; j++)
+            for (int j = 0; j < 3; j++)
             {
-                
+                if (Side[i][j].getColor(Cube.sides.TOP) != c)
+                    valid = false;
             }
         }
+
+        //if 5 of the 6 sides are correct, the last side must be correct
+
+        return valid;
     }
 
     public int RunSequence(int s)

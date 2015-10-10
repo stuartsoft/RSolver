@@ -37,6 +37,9 @@ public class RubiksCubePrefab : MonoBehaviour {
         //RC.turnCubeX(true);
         //RC.turnCubeY(true);
         //RC.turnCubeZ(true);
+        //RC.rotateRightFace(true);
+        RC.RunSequence(10);
+        Debug.Log(RC.isSolved());
         RefreshPanels();
 
         //transform.rotation = Quaternion.Euler(45, 45, 30);
@@ -44,7 +47,7 @@ public class RubiksCubePrefab : MonoBehaviour {
 
     void Update()
     {
-        //transform.Rotate(Time.deltaTime * 20, Time.deltaTime * 20, 0);
+        transform.Rotate(Time.deltaTime * 20, Time.deltaTime * 20, 0);
     }
 
 
