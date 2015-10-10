@@ -35,10 +35,11 @@ public class RubiksCubePrefab : MonoBehaviour {
         }
 
         //RC.RunSequence(0);
+        RC.TurnCubeZ(transform);
 
         RefreshPanels();
 
-        transform.rotation = Quaternion.Euler(45, 45, 30);
+        //transform.rotation = Quaternion.Euler(45, 45, 30);
     }
 
     void Update()
