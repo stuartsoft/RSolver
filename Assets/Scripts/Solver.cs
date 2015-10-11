@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Solver : MonoBehaviour {
 
@@ -13,6 +14,7 @@ public class Solver : MonoBehaviour {
         RCP.RC.turnCubeZ(true);
         RCP.RC.turnCubeZ(true);
         Stage4();
+        Stage5();
 	}
 
     void Stage2()//Solve the white cross
@@ -218,6 +220,31 @@ public class Solver : MonoBehaviour {
 
             RCP.RC.turnCubeY(true);
         }
+
+    }
+
+    void Stage5()//solve the yellow side
+    {
+        while (!RCP.RC.isYellowCrossOnTop())
+        {
+            for (int i= 0; i < 4; i++)
+            {
+                if (RCP.RC.isYellowBackwardsLOnTop())
+                    break;
+                if (RCP.RC.isYellowHorizontalLineOnTop())
+                    break;
+
+                RCP.RC.rotateTopFace(true);
+            }
+            //cube is now oriented with either a yellow L or horizontal line or just a yellow center
+
+            if (RCP.RC.isYellowHorizontalLineOnTop())
+                RCP.RC.RunSequence(5);
+            else
+                RCP.RC.RunSequence(4);
+        }
+
+        //cube now has a yellow cross on top
 
     }
 

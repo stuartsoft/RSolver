@@ -62,7 +62,7 @@ public class RubiksCube
         //rotateFrontFace(true);
     }
 
-    List<List<Cube>> getCubeXYFace(int r, bool reference)
+    public List<List<Cube>> getCubeXYFace(int r, bool reference)
     {
         List<List<Cube>> face = new List<List<Cube>>();
         for (int i = 0; i < 3; i++)
@@ -84,7 +84,7 @@ public class RubiksCube
         return face;
     }
 
-    List<List<Cube>> getCubeYZFace(int r, bool reference)
+    public List<List<Cube>> getCubeYZFace(int r, bool reference)
     {
         List<List<Cube>> face = new List<List<Cube>>();
         for (int i = 0; i < 3; i++)
@@ -106,7 +106,7 @@ public class RubiksCube
         return face;
     }
 
-    List<List<Cube>> getCubeXZFace(int r, bool reference)
+    public List<List<Cube>> getCubeXZFace(int r, bool reference)
     {
         List<List<Cube>> face = new List<List<Cube>>();
         for (int i = 0; i < 3; i++)
@@ -380,6 +380,61 @@ public class RubiksCube
         throw new System.ArgumentException("No such cube exists with colors provided");
     }
    
+    public bool isYellowCrossOnTop()
+    {
+        bool valid = true;
+        List<List<Cube>> plane =  getCubeXZFace(2, false);
+
+        if (plane[0][1].getColor(Cube.sides.TOP) != Cube.YELLOWCOLOR)
+            valid = false;
+        if (plane[1][0].getColor(Cube.sides.TOP) != Cube.YELLOWCOLOR)
+            valid = false;
+        if (plane[2][1].getColor(Cube.sides.TOP) != Cube.YELLOWCOLOR)
+            valid = false;
+        if (plane[1][2].getColor(Cube.sides.TOP) != Cube.YELLOWCOLOR)
+            valid = false;
+
+        //check center
+        if (plane[1][1].getColor(Cube.sides.TOP) != Cube.YELLOWCOLOR)
+            valid = false;
+
+        return valid;
+    }
+
+    public bool isYellowHorizontalLineOnTop()
+    {
+        bool valid = true;
+        List<List<Cube>> plane = getCubeXZFace(2, false);
+
+        if (plane[0][1].getColor(Cube.sides.TOP) != Cube.YELLOWCOLOR)
+            valid = false;
+        if (plane[2][1].getColor(Cube.sides.TOP) != Cube.YELLOWCOLOR)
+            valid = false;
+
+        //check center
+        if (plane[1][1].getColor(Cube.sides.TOP) != Cube.YELLOWCOLOR)
+            valid = false;
+
+        return valid;
+    }
+
+    public bool isYellowBackwardsLOnTop()
+    {
+        bool valid = true;
+        List<List<Cube>> plane = getCubeXZFace(2, false);
+
+        if (plane[0][1].getColor(Cube.sides.TOP) != Cube.YELLOWCOLOR)
+            valid = false;
+        if (plane[1][2].getColor(Cube.sides.TOP) != Cube.YELLOWCOLOR)
+            valid = false;
+
+        //check center
+        if (plane[1][1].getColor(Cube.sides.TOP) != Cube.YELLOWCOLOR)
+            valid = false;
+
+        return valid;
+    }
+
     public bool isSolved()
     {
         List<List<Cube>> Side;
