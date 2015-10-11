@@ -9,6 +9,7 @@ public class RubiksCubePrefab : MonoBehaviour {
     public RubiksCube RC;//the actual rubiks cube data structure
     public List<List<List<GameObject>>> cubePrefabMatrix;
     public float spacing = 1.05f;
+    public float rotationSpeed = 20;
 
     // Use this for initialization
     void Start () {
@@ -33,14 +34,132 @@ public class RubiksCubePrefab : MonoBehaviour {
             }
             cubePrefabMatrix.Add(PrefabRow);
         }
+
+        StartCoroutine(animateCustomSequence("Ri"));
+
     }
 
     void Update()
     {
         RefreshPanels();
         //transform.Rotate(Time.deltaTime * 0, Time.deltaTime * 20, 0);
+        //cubePrefabMatrix[0][0][0].transform.RotateAround(transform.position, Vector3.fwd, 10*Time.deltaTime);
+
     }
 
+    void resetCubePrefabPositions()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    cubePrefabMatrix[i][j][k].transform.position = new Vector3((i - 1), (j - 1), (k - 1)) * spacing;
+                    cubePrefabMatrix[i][j][k].transform.rotation = Quaternion.identity;
+                }
+            }
+        }
+    }
+    
+    IEnumerator animateCustomSequence(string seq)
+    {
+
+        int step = 0;
+
+
+        while (step < seq.Length)
+        {
+            char c = seq[step];//get the character of the turn to run
+            bool clockwise = true;
+            if (step + 1 < seq.Length)
+            {
+                if (seq[step + 1] == 'i')//does the next character indicate an inverse operation?
+                {
+                    clockwise = false;
+                    step++;//increment past inverse character
+                }
+            }
+            //===========================
+
+            float totalRotation = 0;
+            int dir = 1;
+            if (clockwise)
+                dir = -1;
+            float delta = 0;
+
+            if (c == 'R'){
+                while (Mathf.Abs(totalRotation) < 90){
+                    delta = -1* dir * rotationSpeed * Time.deltaTime;
+                    totalRotation += delta;
+                    for (int i = 0; i < 3; i++) { for (int j = 0; j < 3; j++) { cubePrefabMatrix[2][i][j].transform.RotateAround(transform.position, transform.right, delta); } }
+                    yield return null;
+                }
+                RC.rotateRightFace(clockwise);
+            }
+            else if (c == 'L')
+            {
+                while (Mathf.Abs(totalRotation) < 90)
+                {
+                    delta = dir * rotationSpeed * Time.deltaTime;
+                    totalRotation += delta;
+                    for (int i = 0; i < 3; i++) { for (int j = 0; j < 3; j++) { cubePrefabMatrix[0][i][j].transform.RotateAround(transform.position, transform.right, delta); } }
+                    yield return null;
+                }
+                RC.rotateLeftFace(clockwise);
+            }
+            else if (c == 'U')
+            {
+                while (Mathf.Abs(totalRotation) < 90)
+                {
+                    delta = -1 * dir * rotationSpeed * Time.deltaTime;
+                    totalRotation += delta;
+                    for (int i = 0; i < 3; i++) { for (int j = 0; j < 3; j++) { cubePrefabMatrix[i][2][j].transform.RotateAround(transform.position, transform.up, delta); } }
+                    yield return null;
+                }
+                RC.rotateTopFace(clockwise);
+            }
+            else if (c == 'D')
+            {
+                while (Mathf.Abs(totalRotation) < 90)
+                {
+                    delta = dir * rotationSpeed * Time.deltaTime;
+                    totalRotation += delta;
+                    for (int i = 0; i < 3; i++) { for (int j = 0; j < 3; j++) { cubePrefabMatrix[i][0][j].transform.RotateAround(transform.position, transform.up, delta); } }
+                    yield return null;
+                }
+                RC.rotateBottomFace(clockwise);
+            }
+            else if (c == 'F')
+            {
+                while (Mathf.Abs(totalRotation) < 90)
+                {
+                    delta = dir * rotationSpeed * Time.deltaTime;
+                    totalRotation += delta;
+                    for (int i = 0; i < 3; i++) { for (int j = 0; j < 3; j++) { cubePrefabMatrix[i][j][0].transform.RotateAround(transform.position, transform.forward, delta); } }
+                    yield return null;
+                }
+                RC.rotateFrontFace(clockwise);
+            }
+            else if (c == 'B')
+            {
+                while (Mathf.Abs(totalRotation) < 90)
+                {
+                    delta = -1 * dir * rotationSpeed * Time.deltaTime;
+                    totalRotation += delta;
+                    for (int i = 0; i < 3; i++) { for (int j = 0; j < 3; j++) { cubePrefabMatrix[i][j][2].transform.RotateAround(transform.position, transform.forward, delta); } }
+                    yield return null;
+                }
+                RC.rotateBackFace(clockwise);
+            }
+
+            step++;
+            resetCubePrefabPositions();
+            RefreshPanels();
+        }
+
+        yield return null;
+    }
 
     public void RefreshPanels()
     {
