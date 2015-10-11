@@ -8,6 +8,7 @@ public class Solver : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        return;
         RCP.RC.Scramble(50);
         Stage2();
         Stage3();

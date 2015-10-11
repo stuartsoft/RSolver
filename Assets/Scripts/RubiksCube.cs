@@ -548,7 +548,7 @@ public class RubiksCube
 
     public int RunSequence(int s)
     {
-        Debug.Log("Running sequence: " + s);
+        //Debug.Log("Running sequence: " + s);
         string seq = sequences[s];
         int cost = RunCustomSequence(seq);
         return cost;
@@ -583,6 +583,12 @@ public class RubiksCube
                 rotateFrontFace(clockwise);
             else if (c == 'B')
                 rotateBackFace(clockwise);
+            else if (c == 'X')
+                turnCubeX(clockwise);
+            else if (c == 'Y')
+                turnCubeY(clockwise);
+            else if (c == 'Z')
+                turnCubeZ(clockwise);
 
             step++;
             cost++;
@@ -620,6 +626,23 @@ public class RubiksCube
     public void clearTurnRecord()
     {
         turnRecord = "";
+    }
+
+    public RubiksCube cloneCube()
+    {
+        RubiksCube RC = new RubiksCube();
+        for (int x = 0; x < 3; x++)
+        {
+            for (int y = 0;y < 3; y++)
+            {
+                for (int z = 0; z < 3; z++)
+                {
+                    RC.cubeMatrix[x][y][z] = new Cube(cubeMatrix[x][y][z].getColors());
+                }
+            }
+        }
+
+        return RC;
     }
 
 }

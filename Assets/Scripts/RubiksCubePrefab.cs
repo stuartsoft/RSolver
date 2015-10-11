@@ -35,7 +35,7 @@ public class RubiksCubePrefab : MonoBehaviour {
             cubePrefabMatrix.Add(PrefabRow);
         }
 
-        //StartCoroutine(animateCustomSequence(RC.sequences[10]));
+        StartCoroutine(animateCustomSequence("XYZZiYiXi"));
 
     }
 
@@ -152,8 +152,44 @@ public class RubiksCubePrefab : MonoBehaviour {
                 }
                 RC.rotateBackFace(clockwise);
             }
+            else if (c == 'X')
+            {
+                while (Mathf.Abs(totalRotation) < 90)
+                {
+                    delta = dir * rotationSpeed * Time.deltaTime;
+                    totalRotation += delta;
+                    transform.RotateAround(transform.position, transform.right, delta);
+                    yield return null;
+                }
+                RC.turnCubeX(clockwise);
+            }
+            else if (c == 'Y')
+            {
+                while (Mathf.Abs(totalRotation) < 90)
+                {
+                    delta = dir * rotationSpeed * Time.deltaTime;
+                    totalRotation += delta;
+                    transform.RotateAround(transform.position, transform.up, delta);
+                    yield return null;
+                }
+                RC.turnCubeY(clockwise);
+            }
+            else if (c == 'Z')
+            {
+                while (Mathf.Abs(totalRotation) < 90)
+                {
+                    delta = dir * rotationSpeed * Time.deltaTime;
+                    totalRotation += delta;
+                    transform.RotateAround(transform.position, transform.forward, delta);
+                    yield return null;
+                }
+                RC.turnCubeZ(clockwise);
+            }
+
 
             step++;
+            transform.rotation = Quaternion.identity;
+            transform.position = Vector3.zero;
             resetCubePrefabPositions();
             RefreshPanels();
         }
