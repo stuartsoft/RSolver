@@ -16,6 +16,7 @@ public class Solver : MonoBehaviour {
         Stage4();
         Stage5();
         Stage6();
+        Debug.Log(RCP.RC.turnRecord);
 	}
 
     void Stage2()//Solve the white cross

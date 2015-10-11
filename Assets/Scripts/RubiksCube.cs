@@ -7,6 +7,8 @@ public class RubiksCube
     public List<List<List<Cube>>> cubeMatrix;
 
     public List<string> sequences;
+    public string turnRecord{get; private set;}
+
 
     // Use this for initialization
     public RubiksCube()
@@ -163,6 +165,11 @@ public class RubiksCube
                 currentFrontOutline[(i + 2) % 8].rotateZ();
             }
         }
+
+        turnRecord += "F";
+        if (!clockwise)
+            turnRecord += "i";
+
     }
 
     void rotateMiddleXYFace(bool clockwise)//clockwise is relative to front face in this case
@@ -200,6 +207,10 @@ public class RubiksCube
                 currentFrontOutline[i].rotateZ();
             }
         }
+
+        turnRecord += "B";
+        if (!clockwise)
+            turnRecord += "i";
     }
 
     public void rotateRightFace(bool clockwise)
@@ -217,6 +228,10 @@ public class RubiksCube
                 currentFrontOutline[i].rotateX();
             }
         }
+
+        turnRecord += "R";
+        if (!clockwise)
+            turnRecord += "i";
     }
 
     void rotateMiddleYZFace(bool clockwise)//clockwise is relative to left face
@@ -257,6 +272,10 @@ public class RubiksCube
 
             }
         }
+
+        turnRecord += "L";
+        if (!clockwise)
+            turnRecord += "i";
     }
 
     public void rotateTopFace(bool clockwise)
@@ -276,6 +295,10 @@ public class RubiksCube
                 currentFrontOutline[(i + 2) % 8].rotateY();
             }
         }
+
+        turnRecord += "U";
+        if (!clockwise)
+            turnRecord += "i";
     }
 
     void rotateMiddleXZFace(bool clockwise)//clockwise is relative to bottom face
@@ -310,6 +333,10 @@ public class RubiksCube
                 currentFrontOutline[i].rotateY();
             }
         }
+
+        turnRecord += "D";
+        if (!clockwise)
+            turnRecord += "i";
     }
 
     public void turnCubeZ(bool clockwise)
@@ -317,6 +344,10 @@ public class RubiksCube
         rotateFrontFace(clockwise);
         rotateMiddleXYFace(clockwise);
         rotateBackFace(!clockwise);
+
+        turnRecord += "Z";
+        if (!clockwise)
+            turnRecord += "i";
     }
 
     public void turnCubeX(bool clockwise)
@@ -324,6 +355,10 @@ public class RubiksCube
         rotateLeftFace(clockwise);
         rotateMiddleYZFace(clockwise);
         rotateRightFace(!clockwise);
+
+        turnRecord += "X";
+        if (!clockwise)
+            turnRecord += "i";
     }
 
     public void turnCubeY(bool clockwise)
@@ -331,6 +366,10 @@ public class RubiksCube
         rotateBottomFace(clockwise);
         rotateMiddleXZFace(clockwise);
         rotateTopFace(!clockwise);
+
+        turnRecord += "Y";
+        if (!clockwise)
+            turnRecord += "i";
     }
 
     public Vector3 cornerCubeWithColors(Color a, Color b, Color c)
@@ -574,7 +613,13 @@ public class RubiksCube
         }
 
         RunCustomSequence(seq);
+
+        clearTurnRecord();
     }
 
+    public void clearTurnRecord()
+    {
+        turnRecord = "";
+    }
 
 }

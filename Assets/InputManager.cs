@@ -14,13 +14,13 @@ public class InputManager : MonoBehaviour {
 	void Update () {
 	    if (Input.GetKeyUp(KeyCode.A))
         {
-            RCP.RC.rotateTopFace(true);
-            Debug.Log(RCP.RC.allTopCornersSolved());
+            //RCP.RC.rotateTopFace(true);
+            //Debug.Log(RCP.RC.allTopCornersSolved());
         }
         else if (Input.GetKeyUp(KeyCode.D))
         {
-            RCP.RC.rotateTopFace(false);
-            Debug.Log(RCP.RC.allTopCornersSolved());
+            //RCP.RC.rotateTopFace(false);
+            //Debug.Log(RCP.RC.allTopCornersSolved());
 
         }
     }
