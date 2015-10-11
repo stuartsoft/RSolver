@@ -18,15 +18,11 @@ public class SceneManager : MonoBehaviour {
 
     public void Solve()
     {
-        RubiksCube tempRC = RCP.RC.cloneCube();
-        S = new Solver(RCP.RC);
+        RubiksCube RC = RCP.RC.cloneCube();
+        S = new Solver(RC);
         string solution = S.Solution();
-        //StartCoroutine(RCP.animateCustomSequence(solution));
         Debug.Log(solution);
 
-        //S = new Solver(RCP.RC);
-        //string solution = S.Solution();
-        //RCP.RefreshPanels();
     }
 
 }

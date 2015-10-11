@@ -7,7 +7,7 @@ public class RubiksCube
     public List<List<List<Cube>>> cubeMatrix;
 
     public List<string> sequences;
-    public string turnRecord{get; private set;}
+    public string turnRecord;
 
 
     // Use this for initialization
@@ -631,6 +631,7 @@ public class RubiksCube
     public RubiksCube cloneCube()
     {
         RubiksCube RC = new RubiksCube();
+        RC.turnRecord = turnRecord;
         for (int x = 0; x < 3; x++)
         {
             for (int y = 0;y < 3; y++)
@@ -643,6 +644,7 @@ public class RubiksCube
                         Color tempc = cubeMatrix[x][y][z].getColor((Cube.sides)i);
                         tempCube.setSideColor((Cube.sides)i, tempc);
                     }
+                    RC.cubeMatrix[x][y][z] = tempCube;
                 }
             }
         }
