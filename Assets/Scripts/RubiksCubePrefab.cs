@@ -35,7 +35,7 @@ public class RubiksCubePrefab : MonoBehaviour {
             cubePrefabMatrix.Add(PrefabRow);
         }
 
-        StartCoroutine(animateCustomSequence("XYZZiYiXi"));
+        //StartCoroutine(animateCustomSequence("XYZZiYiXi"));
 
     }
 
@@ -62,7 +62,7 @@ public class RubiksCubePrefab : MonoBehaviour {
         }
     }
     
-    IEnumerator animateCustomSequence(string seq)
+    public IEnumerator animateCustomSequence(string seq)
     {
 
         int step = 0;
