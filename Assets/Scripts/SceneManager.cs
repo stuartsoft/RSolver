@@ -8,6 +8,7 @@ public class SceneManager : MonoBehaviour {
 
     void Start()
     {
+        //StartCoroutine(RCP.animateCustomSequence(RCP.RC.sequences[10]));
     }
 
     public void ScrambleCube()
@@ -16,14 +17,21 @@ public class SceneManager : MonoBehaviour {
         RCP.RefreshPanels();
     }
 
+
     public void Solve()
     {
         RubiksCube RC = RCP.RC.cloneCube();
+        RubiksCube RC2 = RCP.RC.cloneCube();
         S = new Solver(RC);
         string solution = S.Solution();
+
+        S = new Solver(RC2);
+        string trimmedsolution = S.TrimmedSolution();
+
         Debug.Log(solution);
-        StartCoroutine(RCP.animateCustomSequence(solution));
-        Debug.Log("RCP.RC record: " + RCP.RC.turnRecord);
+        Debug.Log(trimmedsolution);
+
+        //StartCoroutine(RCP.animateCustomSequence(trimmedsolution));
     }
 
 }

@@ -25,6 +25,59 @@ public class Solver {
         return RCube.turnRecord;
     }
 
+    public string TrimmedSolution()
+    {
+        string sol = Solution();
+        bool changesMade = true;
+
+        int num = 0;
+
+        while (changesMade)
+        {
+            changesMade = false;
+            string tempSol = "";
+            string tokA;
+            for (int i = 0; i < sol.Length; i+= tokA.Length)
+            {
+                tokA = getTokenFromSolution(sol, i);
+                string tokB = "";
+                tokB = getTokenFromSolution(sol, i + tokA.Length);
+
+                if (isTokenInverseOfToken(tokA, tokB))
+                {//if token A is invers of the next token
+                    changesMade = true;
+                    i += 2;//skip the unneeded sequence, inverses cancel
+                }
+                else//append the token to the tempsol
+                {
+                    tempSol += tokA;
+                }
+            }
+            sol = tempSol;
+            num++;
+        }
+
+        return sol;
+    }
+
+    string getTokenFromSolution(string sol, int i)
+    {
+        string result = "";
+        if (i < sol.Length)
+        {
+            result += sol[i];
+            if (i + 1 < sol.Length && sol[i + 1] == 'i')
+                result += 'i';
+        }
+
+        return result;
+    }
+
+    bool isTokenInverseOfToken(string tokA, string tokB)
+    {
+        return (tokA.Length > 0 && tokB.Length > 0 && tokA[0] == tokB[0] && tokA.Length != tokB.Length);
+    }
+
     void Stage2()//Solve the white cross
     {
 
