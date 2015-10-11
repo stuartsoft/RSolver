@@ -452,6 +452,22 @@ public class RubiksCube
         return valid;
     }
 
+    public bool allTopCornersSolved()
+    {
+        bool iscorrect = true;
+        for (int i = 0; i < 4; i++)
+        {
+            Cube TopLeftFrontCube = cubeMatrix[0][2][0];
+            Cube MiddleLeftFrontCube = cubeMatrix[0][1][0];
+
+            if (TopLeftFrontCube.getColor(Cube.sides.FRONT) != MiddleLeftFrontCube.getColor(Cube.sides.FRONT) || TopLeftFrontCube.getColor(Cube.sides.LEFT) != MiddleLeftFrontCube.getColor(Cube.sides.LEFT))
+                iscorrect = false;
+            turnCubeY(true);
+        }
+
+        return iscorrect;
+    }
+
     public bool isSolved()
     {
         List<List<Cube>> Side;

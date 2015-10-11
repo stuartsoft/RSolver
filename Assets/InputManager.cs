@@ -15,10 +15,13 @@ public class InputManager : MonoBehaviour {
 	    if (Input.GetKeyUp(KeyCode.A))
         {
             RCP.RC.rotateTopFace(true);
+            Debug.Log(RCP.RC.allTopCornersSolved());
         }
         else if (Input.GetKeyUp(KeyCode.D))
         {
             RCP.RC.rotateTopFace(false);
+            Debug.Log(RCP.RC.allTopCornersSolved());
+
         }
-	}
+    }
 }

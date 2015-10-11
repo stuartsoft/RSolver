@@ -8,7 +8,6 @@ public class Solver : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        return;
         RCP.RC.Scramble(50);
         Stage2();
         Stage3();
@@ -16,6 +15,7 @@ public class Solver : MonoBehaviour {
         RCP.RC.turnCubeZ(true);
         Stage4();
         Stage5();
+        Stage6();
 	}
 
     void Stage2()//Solve the white cross
@@ -296,6 +296,69 @@ public class Solver : MonoBehaviour {
 
             //cube is now oriented and ready for sequence
             RCP.RC.RunSequence(6);
+        }
+    }
+
+    void Stage6()//solve the rest
+    {
+        bool AllCornersCorrect = false;
+
+        //checkif all corners are solved in any orientaion of the top face
+        for (int i = 0; i < 4; i++){
+            if (RCP.RC.allTopCornersSolved()){
+                AllCornersCorrect = true;
+                break;
+            }
+            RCP.RC.rotateTopFace(true);
+        }
+
+        while (!AllCornersCorrect)
+        {
+
+            bool foundTwoAdjacentMatchingCorners = false;
+            //try to find to adjacent corners with the same color and place them in the back
+            for (int i = 0; i < 4; i++)//checking for adjacent corners
+            {
+                Color TopFrontLeft = RCP.RC.cubeMatrix[0][2][0].getColor(Cube.sides.FRONT);
+                Color TopFrontRight = RCP.RC.cubeMatrix[2][2][0].getColor(Cube.sides.FRONT);
+                if (TopFrontLeft == TopFrontRight)
+                {
+                    foundTwoAdjacentMatchingCorners = true;
+                    break;
+                }
+                RCP.RC.turnCubeY(true);
+            }
+
+            if (foundTwoAdjacentMatchingCorners)
+            {
+                Color TopFrontLeft = RCP.RC.cubeMatrix[0][2][0].getColor(Cube.sides.FRONT);
+                Color MiddleFrontCenter = RCP.RC.cubeMatrix[1][1][0].getColor(Cube.sides.FRONT);
+
+                while (TopFrontLeft != MiddleFrontCenter)
+                {
+                    RCP.RC.rotateTopFace(true);
+                    RCP.RC.turnCubeY(true);
+                    TopFrontLeft = RCP.RC.cubeMatrix[0][2][0].getColor(Cube.sides.FRONT);
+                    MiddleFrontCenter = RCP.RC.cubeMatrix[1][1][0].getColor(Cube.sides.FRONT);
+                }
+
+                RCP.RC.turnCubeY(true);
+                RCP.RC.turnCubeY(true);
+            }
+
+            //wheather or not we found two corners on the same side, the cube should be in the right orientation now to run the sequence.
+            RCP.RC.RunSequence(7);
+
+            //checkif all corners are solved in any orientaion of the top face
+            for (int i = 0; i < 4; i++)
+            {
+                if (RCP.RC.allTopCornersSolved())
+                {
+                    AllCornersCorrect = true;
+                    break;
+                }
+                RCP.RC.rotateTopFace(true);
+            }
         }
     }
 

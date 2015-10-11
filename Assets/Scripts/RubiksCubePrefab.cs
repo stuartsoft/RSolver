@@ -9,7 +9,7 @@ public class RubiksCubePrefab : MonoBehaviour {
     public RubiksCube RC;//the actual rubiks cube data structure
     public List<List<List<GameObject>>> cubePrefabMatrix;
     public float spacing = 1.05f;
-    public float rotationSpeed = 20;
+    public float rotationSpeed = 40;
 
     // Use this for initialization
     void Start () {
@@ -35,7 +35,7 @@ public class RubiksCubePrefab : MonoBehaviour {
             cubePrefabMatrix.Add(PrefabRow);
         }
 
-        StartCoroutine(animateCustomSequence("Ri"));
+        //StartCoroutine(animateCustomSequence(RC.sequences[10]));
 
     }
 
