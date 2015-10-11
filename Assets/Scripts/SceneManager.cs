@@ -31,7 +31,7 @@ public class SceneManager : MonoBehaviour {
         Debug.Log(solution);
         Debug.Log(trimmedsolution);
 
-        //StartCoroutine(RCP.animateCustomSequence(trimmedsolution));
+        StartCoroutine(RCP.animateCustomSequence(trimmedsolution));
     }
 
 }

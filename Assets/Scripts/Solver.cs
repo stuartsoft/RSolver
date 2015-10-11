@@ -46,7 +46,7 @@ public class Solver {
                 if (isTokenInverseOfToken(tokA, tokB))
                 {//if token A is invers of the next token
                     changesMade = true;
-                    i += 2;//skip the unneeded sequence, inverses cancel
+                    i += tokB.Length;//skip the unneeded sequence, inverses cancel
                 }
                 else//append the token to the tempsol
                 {
