@@ -150,7 +150,7 @@ public class RubiksCube
         return outline;
     }
 
-    public void rotateFrontFace(bool clockwise)
+    public void rotateFrontFace(bool clockwise, bool record = true)
     {
         int iterations = 1;
         if (!clockwise) iterations = 3;
@@ -166,9 +166,12 @@ public class RubiksCube
             }
         }
 
-        turnRecord += "F";
-        if (!clockwise)
-            turnRecord += "i";
+        if (record)
+        {
+            turnRecord += "F";
+            if (!clockwise)
+                turnRecord += "i";
+        }
 
     }
 
@@ -190,7 +193,7 @@ public class RubiksCube
         }
     }
 
-    public void rotateBackFace(bool clockwise)
+    public void rotateBackFace(bool clockwise, bool record = true)
     {
         int iterations = 1;
         if (!clockwise) iterations = 3;
@@ -208,12 +211,15 @@ public class RubiksCube
             }
         }
 
-        turnRecord += "B";
-        if (!clockwise)
-            turnRecord += "i";
+        if (record)
+        {
+            turnRecord += "B";
+            if (!clockwise)
+                turnRecord += "i";
+        }
     }
 
-    public void rotateRightFace(bool clockwise)
+    public void rotateRightFace(bool clockwise, bool record = true)
     {
         int iterations = 1;
         if (!clockwise) iterations = 3;
@@ -229,9 +235,12 @@ public class RubiksCube
             }
         }
 
-        turnRecord += "R";
-        if (!clockwise)
-            turnRecord += "i";
+        if (record)
+        {
+            turnRecord += "R";
+            if (!clockwise)
+                turnRecord += "i";
+        }
     }
 
     void rotateMiddleYZFace(bool clockwise)//clockwise is relative to left face
@@ -254,7 +263,7 @@ public class RubiksCube
         }
     }
 
-    public void rotateLeftFace(bool clockwise)
+    public void rotateLeftFace(bool clockwise, bool record = true)
     {
         int iterations = 1;
         if (!clockwise) iterations = 3;
@@ -273,12 +282,15 @@ public class RubiksCube
             }
         }
 
-        turnRecord += "L";
-        if (!clockwise)
-            turnRecord += "i";
+        if (record)
+        {
+            turnRecord += "L";
+            if (!clockwise)
+                turnRecord += "i";
+        }
     }
 
-    public void rotateTopFace(bool clockwise)
+    public void rotateTopFace(bool clockwise, bool record = true)
     {
         int iterations = 1;
         if (!clockwise) iterations = 3;
@@ -296,9 +308,12 @@ public class RubiksCube
             }
         }
 
-        turnRecord += "U";
-        if (!clockwise)
-            turnRecord += "i";
+        if (record)
+        {
+            turnRecord += "U";
+            if (!clockwise)
+                turnRecord += "i";
+        }
     }
 
     void rotateMiddleXZFace(bool clockwise)//clockwise is relative to bottom face
@@ -318,7 +333,7 @@ public class RubiksCube
         }
     }
 
-    public void rotateBottomFace(bool clockwise)
+    public void rotateBottomFace(bool clockwise, bool record = true)
     {
         int iterations = 1;
         if (!clockwise) iterations = 3;
@@ -334,16 +349,19 @@ public class RubiksCube
             }
         }
 
-        turnRecord += "D";
-        if (!clockwise)
-            turnRecord += "i";
+        if (record)
+        {
+            turnRecord += "D";
+            if (!clockwise)
+                turnRecord += "i";
+        }
     }
 
     public void turnCubeZ(bool clockwise)
     {
-        rotateFrontFace(clockwise);
+        rotateFrontFace(clockwise, false);
         rotateMiddleXYFace(clockwise);
-        rotateBackFace(!clockwise);
+        rotateBackFace(!clockwise, false);
 
         turnRecord += "Z";
         if (!clockwise)
@@ -352,9 +370,9 @@ public class RubiksCube
 
     public void turnCubeX(bool clockwise)
     {
-        rotateLeftFace(clockwise);
+        rotateLeftFace(clockwise, false);
         rotateMiddleYZFace(clockwise);
-        rotateRightFace(!clockwise);
+        rotateRightFace(!clockwise, false);
 
         turnRecord += "X";
         if (!clockwise)
@@ -363,9 +381,9 @@ public class RubiksCube
 
     public void turnCubeY(bool clockwise)
     {
-        rotateBottomFace(clockwise);
+        rotateBottomFace(clockwise, false);
         rotateMiddleXZFace(clockwise);
-        rotateTopFace(!clockwise);
+        rotateTopFace(!clockwise, false);
 
         turnRecord += "Y";
         if (!clockwise)

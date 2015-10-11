@@ -22,7 +22,8 @@ public class SceneManager : MonoBehaviour {
         S = new Solver(RC);
         string solution = S.Solution();
         Debug.Log(solution);
-
+        StartCoroutine(RCP.animateCustomSequence(solution));
+        Debug.Log("RCP.RC record: " + RCP.RC.turnRecord);
     }
 
 }
