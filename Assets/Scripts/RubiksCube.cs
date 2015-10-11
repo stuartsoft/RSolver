@@ -12,8 +12,8 @@ public class RubiksCube
     public RubiksCube()
     {
         sequences = new List<string>();
-        sequences.Add("RiUFiUi");
-        sequences.Add("RiDiRD");
+        sequences.Add("RiUFiUi");//fix middle in stage 2
+        sequences.Add("RiDiRD");//fix corner in stage 3
         sequences.Add("URUiRiUiFiUF");
         sequences.Add("UiLiULUFUiFi");
         sequences.Add("FURUiRiFi");
