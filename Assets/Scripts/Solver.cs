@@ -246,6 +246,56 @@ public class Solver : MonoBehaviour {
 
         //cube now has a yellow cross on top
 
+        while (!RCP.RC.isTopAllYellow())
+        {
+            int state = 0;
+
+            for (int i = 0; i < 4; i++)
+            {
+                Cube topleftback = RCP.RC.cubeMatrix[0][2][2];
+                Cube toprightback = RCP.RC.cubeMatrix[2][2][2];
+
+                if (topleftback.getColor(Cube.sides.TOP) == Cube.YELLOWCOLOR && toprightback.getColor(Cube.sides.TOP) == Cube.YELLOWCOLOR)
+                {
+                    state = 3;
+                    break;
+                }
+                RCP.RC.turnCubeY(true);
+            }
+
+            if (state == 0)//no two adjacent yellow sides were found
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    Cube topleftfront = RCP.RC.cubeMatrix[0][2][0];
+
+                    if (topleftfront.getColor(Cube.sides.TOP) == Cube.YELLOWCOLOR)
+                    {
+                        state = 2;
+                        break;
+                    }
+                    RCP.RC.turnCubeY(true);
+                }
+            }
+
+            if (state == 0)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    Cube topleftfront = RCP.RC.cubeMatrix[0][2][0];
+
+                    if (topleftfront.getColor(Cube.sides.LEFT) == Cube.YELLOWCOLOR)
+                    {
+                        state = 1;
+                        break;
+                    }
+                    RCP.RC.turnCubeY(true);
+                }
+            }
+
+            //cube is now oriented and ready for sequence
+            RCP.RC.RunSequence(6);
+        }
     }
 
     // Update is called once per frame

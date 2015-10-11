@@ -435,6 +435,23 @@ public class RubiksCube
         return valid;
     }
 
+    public bool isTopAllYellow()
+    {
+        bool valid = true;
+        List<List<Cube>> plane = getCubeXZFace(2, false);
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                if (plane[i][j].getColor(Cube.sides.TOP) != Cube.YELLOWCOLOR)
+                    valid = false;
+            }
+        }
+
+        return valid;
+    }
+
     public bool isSolved()
     {
         List<List<Cube>> Side;
