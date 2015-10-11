@@ -360,6 +360,31 @@ public class Solver : MonoBehaviour {
                 RCP.RC.rotateTopFace(true);
             }
         }
+
+        //all yellow corners are now in the right spot
+        //now to fix the top side pieces
+
+        while (!RCP.RC.isSolved())
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Color TopFrontLeft = RCP.RC.cubeMatrix[0][2][0].getColor(Cube.sides.FRONT);
+                Color TopFrontMiddle = RCP.RC.cubeMatrix[1][2][0].getColor(Cube.sides.FRONT);
+
+                if (TopFrontLeft == TopFrontMiddle)
+                {
+                    RCP.RC.turnCubeY(true);
+                    RCP.RC.turnCubeY(true);
+                    break;
+                }
+                RCP.RC.turnCubeY(true);
+            }
+
+            //we should now have either a matching face on the back or there are not matching faces
+            //now run the last sequence
+
+            RCP.RC.RunSequence(9);
+        }
     }
 
     // Update is called once per frame
