@@ -13,6 +13,7 @@ public class Solver {
 
     public string Solution()
     {
+        RCube.clearTurnRecord();
         Stage2();
         Stage3();
         RCube.turnCubeZ(true);
