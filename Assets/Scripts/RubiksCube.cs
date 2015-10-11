@@ -421,6 +421,7 @@ public class RubiksCube
 
     public int RunSequence(int s)
     {
+        Debug.Log("Running sequence: " + s);
         string seq = sequences[s];
         int cost = RunCustomSequence(seq);
         return cost;

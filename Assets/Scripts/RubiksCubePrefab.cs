@@ -38,7 +38,7 @@ public class RubiksCubePrefab : MonoBehaviour {
     void Update()
     {
         RefreshPanels();
-        //transform.Rotate(Time.deltaTime * 20, Time.deltaTime * 20, 0);
+        //transform.Rotate(Time.deltaTime * 0, Time.deltaTime * 20, 0);
     }
 
 

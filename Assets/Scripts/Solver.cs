@@ -12,6 +12,7 @@ public class Solver : MonoBehaviour {
         Stage3();
         RCP.RC.turnCubeZ(true);
         RCP.RC.turnCubeZ(true);
+        Stage4();
 	}
 
     void Stage2()//Solve the white cross
@@ -82,7 +83,6 @@ public class Solver : MonoBehaviour {
 
             if (temp.getColor(Cube.sides.TOP) != Cube.WHITECOLOR)
             {
-                Debug.Log("running sequence 0");
                 RCP.RC.turnCubeY(true);
                 RCP.RC.RunSequence(0);
                 RCP.RC.turnCubeY(false);
@@ -97,11 +97,11 @@ public class Solver : MonoBehaviour {
         {
             Color TargetColorA = RCP.RC.cubeMatrix[1][1][0].getColor(Cube.sides.FRONT);//front center
             Color TargetColorB = RCP.RC.cubeMatrix[2][1][1].getColor(Cube.sides.RIGHT);//right center
-            Debug.Log("TargetColors: " + TargetColorA + TargetColorB);
+            //Debug.Log("TargetColors: " + TargetColorA + TargetColorB);
             Vector3 Pos = RCP.RC.cornerCubeWithColors(TargetColorA, TargetColorB, Cube.WHITECOLOR);
-            Debug.Log("Pos: " + Pos);
+            //Debug.Log("Pos: " + Pos);
             Vector3 TargetPos = new Vector3(2, 2, 0);
-            Debug.Log("TargetPos: " + TargetPos);
+            //Debug.Log("TargetPos: " + TargetPos);
 
             if (TargetPos != Pos)//not in the right spot
             {
@@ -153,8 +153,55 @@ public class Solver : MonoBehaviour {
         }
     }
 
-	// Update is called once per frame
-	void Update () {
+    void Stage4()//solve the middle row side cubes...
+    {
+        Color TargetColorA = RCP.RC.cubeMatrix[1][1][0].getColor(Cube.sides.FRONT);//front center
+        Color TargetColorB = RCP.RC.cubeMatrix[2][1][1].getColor(Cube.sides.RIGHT);//right center
+        //Debug.Log("TargetColors: " + TargetColorA + TargetColorB);
+        Vector3 Pos = RCP.RC.sideCubeWithColors(TargetColorA, TargetColorB);
+        //Debug.Log("Pos: " + Pos);
+        Vector3 TargetPos = new Vector3(2, 1, 0);
+        //Debug.Log("TargetPos: " + TargetPos);
+
+        if (Pos != TargetPos || RCP.RC.cubeMatrix[(int)TargetPos.x][(int)TargetPos.y][(int)TargetPos.z].getColor(Cube.sides.FRONT) != TargetColorA)
+        {//cube is not in the right place or is oriented wrong
+            if (Pos.y != 2)//not in the top
+            {
+                if (Pos.z == 0)//front
+                {
+                    if (Pos.x == 0)//front left middle row
+                        RCP.RC.RunSequence(3);//force the cube out of 0,1,0
+                    else if (Pos.x == 2)//front right middle row
+                        RCP.RC.RunSequence(2);//force the cube out of 2,1,0
+                }
+                else
+                {
+                    RCP.RC.turnCubeY(true);
+                    RCP.RC.turnCubeY(true);
+
+                    if (Pos.x == 0)//front left middle row
+                        RCP.RC.RunSequence(2);//force the cube out of 0,1,0
+                    else if (Pos.x == 2)//front right middle row
+                        RCP.RC.RunSequence(3);//force the cube out of 2,1,0
+
+                    RCP.RC.turnCubeY(true);
+                    RCP.RC.turnCubeY(true);
+                }
+            }
+
+            //cube is now guaranteed to be in top row
+            Pos = RCP.RC.sideCubeWithColors(TargetColorA, TargetColorB);
+            while(Pos != new Vector3(1, 2, 0))
+            {
+                RCP.RC.rotateTopFace(true);
+                Pos = RCP.RC.sideCubeWithColors(TargetColorA, TargetColorB);
+            }
+
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
 	
 	}
 }

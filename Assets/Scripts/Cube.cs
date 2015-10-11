@@ -9,7 +9,7 @@ public class Cube
     public static Color REDCOLOR { get { return Color.red; } }
     public static Color BLUECOLOR { get { return Color.blue; } }
     public static Color GREENCOLOR { get { return Color.green; } }
-    public static Color ORANGECOLOR { get { return new Color(1.0f, 0.4f, 0.0f); } }
+    public static Color ORANGECOLOR { get { return new Color(1.0f, 0.5f, 0.0f); } }
     public static Color YELLOWCOLOR { get { return Color.yellow; } }
     public static Color WHITECOLOR { get { return Color.white; } }
     public static Color BLACKCOLOR { get { return Color.black; } }
