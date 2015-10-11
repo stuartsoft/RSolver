@@ -42,11 +42,19 @@ public class Solver {
                 tokA = getTokenFromSolution(sol, i);
                 string tokB = "";
                 tokB = getTokenFromSolution(sol, i + tokA.Length);
+                string tokC = "";
+                tokC = getTokenFromSolution(sol, i + tokA.Length + tokB.Length);
 
                 if (isTokenInverseOfToken(tokA, tokB))
                 {//if token A is invers of the next token
                     changesMade = true;
                     i += tokB.Length;//skip the unneeded sequence, inverses cancel
+                }
+                else if (tokA == tokB && tokA == tokC)
+                {
+                    changesMade = true;
+                    i += tokB.Length + tokC.Length;
+                    tempSol += inverseToken(tokA);
                 }
                 else//append the token to the tempsol
                 {
@@ -71,6 +79,15 @@ public class Solver {
         }
 
         return result;
+    }
+
+    string inverseToken(string tok)
+    {
+        if (tok.Length == 2)//is inverted
+            return tok[0].ToString();
+        else
+            return tok[0].ToString() + "i";
+
     }
 
     bool isTokenInverseOfToken(string tokA, string tokB)
