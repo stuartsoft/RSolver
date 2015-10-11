@@ -20,6 +20,8 @@ public class Solver {
         Stage4();
         Stage5();
         Stage6();
+        RCube.turnCubeZ(true);
+        RCube.turnCubeZ(true);
         return RCube.turnRecord;
     }
 

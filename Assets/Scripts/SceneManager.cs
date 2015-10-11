@@ -21,9 +21,8 @@ public class SceneManager : MonoBehaviour {
         RubiksCube tempRC = RCP.RC.cloneCube();
         S = new Solver(RCP.RC);
         string solution = S.Solution();
-        RCP.RC = tempRC;
         //StartCoroutine(RCP.animateCustomSequence(solution));
-        Debug.Log(solution)
+        Debug.Log(solution);
 
         //S = new Solver(RCP.RC);
         //string solution = S.Solution();

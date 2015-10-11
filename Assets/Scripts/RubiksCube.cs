@@ -637,7 +637,12 @@ public class RubiksCube
             {
                 for (int z = 0; z < 3; z++)
                 {
-                    RC.cubeMatrix[x][y][z] = new Cube(cubeMatrix[x][y][z].getColors());
+                    Cube tempCube = new Cube();
+                    for (int i = 0; i < 6; i++)
+                    {
+                        Color tempc = cubeMatrix[x][y][z].getColor((Cube.sides)i);
+                        tempCube.setSideColor((Cube.sides)i, tempc);
+                    }
                 }
             }
         }
