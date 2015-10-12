@@ -15,6 +15,9 @@ public class Solver {
     {
         RCube.clearTurnRecord();
 
+        if (RCube.isSolved())
+            return "";//cube is already solved. Quit
+
         //check for easy solutions
 
         //check if checkerboard pattern solves it
@@ -24,7 +27,6 @@ public class Solver {
             return RCube.sequences[10];
 
         //check if dot patter solves it
-
         tempRC = RCube.cloneCube();
         string tempsol = "";
         for (int i = 0; i < 3; i++)
