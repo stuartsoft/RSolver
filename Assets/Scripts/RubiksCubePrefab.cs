@@ -34,17 +34,11 @@ public class RubiksCubePrefab : MonoBehaviour {
             }
             cubePrefabMatrix.Add(PrefabRow);
         }
-
-        //StartCoroutine(animateCustomSequence("XYZZiYiXi"));
-
     }
 
     void Update()
     {
         RefreshPanels();
-        //transform.Rotate(Time.deltaTime * 0, Time.deltaTime * 20, 0);
-        //cubePrefabMatrix[0][0][0].transform.RotateAround(transform.position, Vector3.fwd, 10*Time.deltaTime);
-
     }
 
     public void resetCubePrefabPositions()

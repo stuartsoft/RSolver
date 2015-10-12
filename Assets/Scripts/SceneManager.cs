@@ -27,7 +27,6 @@ public class SceneManager : MonoBehaviour {
 
         Camera.main.transform.position = cameraResetPos;
         Camera.main.transform.LookAt(RCP.transform.position);
-        //StartCoroutine(RCP.animateCustomSequence(RCP.RC.sequences[10]));
     }
 
     public void Update()
@@ -61,7 +60,6 @@ public class SceneManager : MonoBehaviour {
         {
             runSixDot();
         }
-
     }
 
     public void ScrambleCube()
@@ -74,7 +72,6 @@ public class SceneManager : MonoBehaviour {
         txtTurnRecord.text = "";
     }
 
-
     public void Solve()
     {
         if (coroutine != null)
@@ -86,6 +83,8 @@ public class SceneManager : MonoBehaviour {
         coroutine = RCP.animateCustomSequence(solution);
         StartCoroutine(coroutine);
         txtTurnRecord.text = solution;
+        Debug.Log(RC.turnRecord);
+        Debug.Log(RC.TurnRecordTokenCount() + " Moves");
     }
 
     public void OptimizedSolve()
@@ -95,10 +94,12 @@ public class SceneManager : MonoBehaviour {
 
         RubiksCube RC = RCP.RC.cloneCube();
         S = new Solver(RC);
-        string solution = S.TrimmedSolution();
+        string solution = S.OptimizedSolution();
         coroutine = RCP.animateCustomSequence(solution);
         StartCoroutine(coroutine);
         txtTurnRecord.text = solution;
+        Debug.Log(solution);
+        Debug.Log(RC.TurnRecordTokenCount() + " Moves");
     }
 
     public void setAnimationSpeed(float speed)

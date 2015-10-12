@@ -9,7 +9,6 @@ public class RubiksCube
     public List<string> sequences;
     public string turnRecord;
 
-
     // Use this for initialization
     public RubiksCube()
     {
@@ -60,9 +59,6 @@ public class RubiksCube
             }
         }
         cubeMatrix[1][1][1].setAllSideColors(Cube.BLACKCOLOR);
-
-        //rotateBackFace(true);
-        //rotateFrontFace(true);
     }
 
     public List<List<Cube>> getCubeXYFace(int r, bool reference)
@@ -669,6 +665,44 @@ public class RubiksCube
         }
 
         return RC;
+    }
+
+    public int TurnRecordTokenCount()
+    {
+        int cost = 0;
+        int step = 0;
+        while (step < turnRecord.Length)
+        {
+            char c = turnRecord[step];
+            bool clockwise = true;
+            if (step + 1 < turnRecord.Length)
+            {
+                if (turnRecord[step + 1] == 'i')
+                {
+                    clockwise = false;
+                    step++;//increment past inverse character
+                }
+            }
+            step++;
+            cost++;
+        }
+
+        return cost;
+    }
+
+    public void turnCubeToFaceRGBOColorWithYellowOrWhiteOnTop(Color c)
+    {
+        if (cubeMatrix[1][1][0].getColor(Cube.sides.FRONT) == c)
+            return;//do nothing
+        else if (cubeMatrix[0][1][1].getColor(Cube.sides.LEFT) == c)
+            turnCubeY(true);
+        else if (cubeMatrix[2][1][1].getColor(Cube.sides.RIGHT) == c)
+            turnCubeY(false);
+        else
+        {
+            turnCubeY(true);
+            turnCubeY(true);
+        }
     }
 
 }

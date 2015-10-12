@@ -27,7 +27,7 @@ public class Solver {
                 RCube.turnCubeX(false);
             }
         }
-
+        
         Stage2();
         Stage3();
         RCube.turnCubeZ(true);
@@ -40,12 +40,80 @@ public class Solver {
         return RCube.turnRecord;
     }
 
-    public string TrimmedSolution()
+    public string SearchedSolution()
+    {
+        RCube.clearTurnRecord();
+
+        //reorient the cube so that white is on top
+        if (RCube.cubeMatrix[1][2][1].getColor(Cube.sides.TOP) != Cube.WHITECOLOR)
+        {
+            if (RCube.cubeMatrix[1][2][1].getColor(Cube.sides.TOP) == Cube.YELLOWCOLOR)
+            {
+                RCube.turnCubeZ(true);
+                RCube.turnCubeZ(true);
+            }
+            else
+            {
+                while (RCube.cubeMatrix[1][1][0].getColor(Cube.sides.TOP) != Cube.WHITECOLOR)
+                { RCube.turnCubeY(true); }//turn the cube until the front is white
+                RCube.turnCubeX(false);
+            }
+        }
+
+        //Stage2
+        //four possible colors to solve
+        List<Color> remainingSideColors = new List<Color>();
+        remainingSideColors.Add(Cube.REDCOLOR);
+        remainingSideColors.Add(Cube.GREENCOLOR);
+        remainingSideColors.Add(Cube.ORANGECOLOR);
+        remainingSideColors.Add(Cube.BLUECOLOR);
+        //Greedy best first search
+        for (int i = 0; i < 4; i++)//four colors to solve
+        {
+            List<int> costs = new List<int>();
+            List<RubiksCube> tempRCs = new List<RubiksCube>();
+            for (int j = 0;j<(4 - i); j++)//run through all remaining sides to solve
+            {
+                RubiksCube rc = RCube.cloneCube();
+                tempRCs.Add(rc);
+                tempRCs[j].turnCubeToFaceRGBOColorWithYellowOrWhiteOnTop(remainingSideColors[j]);
+                SolveWhiteSideCube(tempRCs[j]);//solve side cube for this face
+                costs.Add(tempRCs[j].TurnRecordTokenCount());
+            }
+            int minCost = 9999;
+            int minCostIndex = 0;
+            //Debug.Log(costs.ToString());
+            for (int k = 0; k < costs.Count; k++)
+            {
+                if (costs[k] < minCost){
+                    minCost = costs[k];
+                    minCostIndex = k;
+                }
+            }
+            //now we know the cube with the min cost for this iteration
+            //retain the lowest cost and proceed on
+            RCube = tempRCs[minCostIndex].cloneCube();
+            //Debug.Log(remainingSideColors[minCostIndex]);
+            remainingSideColors.RemoveAt(minCostIndex);
+        }
+        
+        Stage3();
+        RCube.turnCubeZ(true);
+        RCube.turnCubeZ(true);
+        Stage4();
+        Stage5();
+        Stage6();
+        RCube.turnCubeZ(true);
+        RCube.turnCubeZ(true);
+        
+        return RCube.turnRecord;
+    }
+
+    public string OptimizedSolution()
     {
         string sol = "";
-
         if (RCube.isSolved())
-            return "";//cube is already solved. Quit
+          return "";//cube is already solved. Quit
 
         //check for easy solutions
 
@@ -67,7 +135,7 @@ public class Solver {
         }
 
         //otherwise continue using normal solution pattern
-        sol = Solution();
+        sol = SearchedSolution();
         sol = trimTurnRecord(sol);
 
         return sol;
@@ -147,77 +215,82 @@ public class Solver {
 
         for (int i = 0; i < 4; i++)
         {
-            Color TargetColor = RCube.cubeMatrix[1][1][0].getColor(Cube.sides.FRONT);
-            //Debug.Log("TargetColor: " + TargetColor);
-            Vector3 Pos = RCube.sideCubeWithColors(TargetColor, Cube.WHITECOLOR);
-            //Debug.Log("Pos: " + Pos);
-            Vector3 TargetPos = new Vector3(1, 2, 0);
-            //Debug.Log("TargetPos: " + TargetPos);
-            if (TargetPos != Pos)//if the cube is not where it should be
-            {
-                if (Pos.y == 2)//is on top row
-                {
-                    if (Pos.x == 0)
-                    {
-                        RCube.rotateLeftFace(true);
-                    }
-                    else if (Pos.x == 2)
-                    {
-                        RCube.rotateRightFace(false);
-                    }
-                    else if (Pos.x == 1)
-                    {
-                        RCube.rotateBackFace(true);
-                        RCube.rotateBackFace(true);
-                    }
-
-                }
-                else if (Pos.y == 1 && Pos.z == 2)//middle row on the back
-                {
-                    if (Pos.x == 0)
-                    {
-                        RCube.rotateBackFace(true);
-                        RCube.rotateBottomFace(true);
-                        RCube.rotateBackFace(false);
-                    }
-                    if (Pos.x == 2)
-                    {
-                        RCube.rotateBackFace(false);
-                        RCube.rotateBottomFace(true);
-                        RCube.rotateBackFace(true);
-                    }
-                }
-
-                //cube is now on bottom or front
-                //requery pos
-                Pos = RCube.sideCubeWithColors(TargetColor, Cube.WHITECOLOR);
-                if (Pos.y == 0)//is on bottom
-                {
-                    while (Pos.z != 0)//while cube is not on the bottom
-                    {
-                        RCube.rotateBottomFace(true);
-                        Pos = RCube.sideCubeWithColors(TargetColor, Cube.WHITECOLOR);
-                    }
-                }
-                while (Pos.y != 2)
-                {
-                    RCube.rotateFrontFace(true);
-                    Pos = RCube.sideCubeWithColors(TargetColor, Cube.WHITECOLOR);
-                }
-            }
-            //cube is now where it should be
-            Cube temp = RCube.cubeMatrix[(int)TargetPos.x][(int)TargetPos.y][(int)TargetPos.z];
-
-            if (temp.getColor(Cube.sides.TOP) != Cube.WHITECOLOR)
-            {
-                RCube.turnCubeY(true);
-                RCube.RunSequence(0);
-                RCube.turnCubeY(false);
-            }
+            SolveWhiteSideCube(RCube);
             RCube.turnCubeY(true);
         }
     }
-	
+
+    void SolveWhiteSideCube(RubiksCube RC)
+    {
+        Color TargetColor = RC.cubeMatrix[1][1][0].getColor(Cube.sides.FRONT);
+        //Debug.Log("TargetColor: " + TargetColor);
+        Vector3 Pos = RC.sideCubeWithColors(TargetColor, Cube.WHITECOLOR);
+        //Debug.Log("Pos: " + Pos);
+        Vector3 TargetPos = new Vector3(1, 2, 0);
+        //Debug.Log("TargetPos: " + TargetPos);
+        if (TargetPos != Pos)//if the cube is not where it should be
+        {
+            if (Pos.y == 2)//is on top row
+            {
+                if (Pos.x == 0)
+                {
+                    RC.rotateLeftFace(true);
+                }
+                else if (Pos.x == 2)
+                {
+                    RC.rotateRightFace(false);
+                }
+                else if (Pos.x == 1)
+                {
+                    RC.rotateBackFace(true);
+                    RC.rotateBackFace(true);
+                }
+
+            }
+            else if (Pos.y == 1 && Pos.z == 2)//middle row on the back
+            {
+                if (Pos.x == 0)
+                {
+                    RC.rotateBackFace(true);
+                    RC.rotateBottomFace(true);
+                    RC.rotateBackFace(false);
+                }
+                if (Pos.x == 2)
+                {
+                    RC.rotateBackFace(false);
+                    RC.rotateBottomFace(true);
+                    RC.rotateBackFace(true);
+                }
+            }
+
+            //cube is now on bottom or front
+            //requery pos
+            Pos = RC.sideCubeWithColors(TargetColor, Cube.WHITECOLOR);
+            if (Pos.y == 0)//is on bottom
+            {
+                while (Pos.z != 0)//while cube is not on the bottom
+                {
+                    RC.rotateBottomFace(true);
+                    Pos = RC.sideCubeWithColors(TargetColor, Cube.WHITECOLOR);
+                }
+            }
+            while (Pos.y != 2)
+            {
+                RC.rotateFrontFace(true);
+                Pos = RC.sideCubeWithColors(TargetColor, Cube.WHITECOLOR);
+            }
+        }
+        //cube is now where it should be
+        Cube temp = RC.cubeMatrix[(int)TargetPos.x][(int)TargetPos.y][(int)TargetPos.z];
+
+        if (temp.getColor(Cube.sides.TOP) != Cube.WHITECOLOR)
+        {
+            RC.turnCubeY(true);
+            RC.RunSequence(0);
+            RC.turnCubeY(false);
+        }
+    }
+
     void Stage3()//sove the white corners
     {
         for (int i = 0; i < 4; i++)
@@ -512,7 +585,6 @@ public class Solver {
 
             if (TFM == MRM)
             {
-                Debug.Log(true);
                 RCube.RunSequence(9);
             }
             else
@@ -524,4 +596,5 @@ public class Solver {
     void Update () {
 	
 	}
+
 }
