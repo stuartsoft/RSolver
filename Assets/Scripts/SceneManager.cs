@@ -98,8 +98,8 @@ public class SceneManager : MonoBehaviour {
         coroutine = RCP.animateCustomSequence(solution);
         StartCoroutine(coroutine);
         txtTurnRecord.text = solution;
-        Debug.Log(solution);
-        Debug.Log(RC.TurnRecordTokenCount() + " Moves");
+        //Debug.Log(solution);
+        //Debug.Log(RC.TurnRecordTokenCount() + " Moves");
     }
 
     public void setAnimationSpeed(float speed)

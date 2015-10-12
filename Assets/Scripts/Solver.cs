@@ -60,53 +60,64 @@ public class Solver {
             }
         }
 
-        //Stage2
-        //four possible colors to solve
-        List<Color> remainingSideColors = new List<Color>();
-        remainingSideColors.Add(Cube.REDCOLOR);
-        remainingSideColors.Add(Cube.GREENCOLOR);
-        remainingSideColors.Add(Cube.ORANGECOLOR);
-        remainingSideColors.Add(Cube.BLUECOLOR);
-        //Greedy best first search
-        for (int i = 0; i < 4; i++)//four colors to solve
+        List<RubiksCube> dfsTree = new List<RubiksCube>();
+        DFS_Stage2(0, null, RCube.cloneCube(), dfsTree);
+
+        int minCost = 9999;
+        int minCostIndex = 0;
+        for (int i = 0; i < dfsTree.Count; i++)
         {
-            List<int> costs = new List<int>();
-            List<RubiksCube> tempRCs = new List<RubiksCube>();
-            for (int j = 0;j<(4 - i); j++)//run through all remaining sides to solve
+            int cost = dfsTree[i].TurnRecordTokenCount();
+            if (cost < minCost)
             {
-                RubiksCube rc = RCube.cloneCube();
-                tempRCs.Add(rc);
-                tempRCs[j].turnCubeToFaceRGBOColorWithYellowOrWhiteOnTop(remainingSideColors[j]);
-                SolveWhiteSideCube(tempRCs[j]);//solve side cube for this face
-                costs.Add(tempRCs[j].TurnRecordTokenCount());
+                minCost = cost;
+                minCostIndex = i;
             }
-            int minCost = 9999;
-            int minCostIndex = 0;
-            //Debug.Log(costs.ToString());
-            for (int k = 0; k < costs.Count; k++)
-            {
-                if (costs[k] < minCost){
-                    minCost = costs[k];
-                    minCostIndex = k;
-                }
-            }
-            //now we know the cube with the min cost for this iteration
-            //retain the lowest cost and proceed on
-            RCube = tempRCs[minCostIndex].cloneCube();
-            //Debug.Log(remainingSideColors[minCostIndex]);
-            remainingSideColors.RemoveAt(minCostIndex);
+        }
+
+        RCube = dfsTree[minCostIndex].cloneCube();
+        
+        //Stage3();
+        //RCube.turnCubeZ(true);
+        //RCube.turnCubeZ(true);
+        //Stage4();
+        //Stage5();
+        //Stage6();
+        //RCube.turnCubeZ(true);
+        //RCube.turnCubeZ(true);    
+        return RCube.turnRecord;
+    }
+
+    void DFS_Stage2(int depth, List<Color>RemainingColors, RubiksCube parent, List<RubiksCube> tree)
+    {
+        //Debug.Log("Depth: " + depth);
+        if (depth == 0)//first iteration
+        {
+            RemainingColors = new List<Color>();
+            RemainingColors.Add(Cube.REDCOLOR);
+            RemainingColors.Add(Cube.GREENCOLOR);
+            RemainingColors.Add(Cube.ORANGECOLOR);
+            RemainingColors.Add(Cube.BLUECOLOR);
         }
         
-        Stage3();
-        RCube.turnCubeZ(true);
-        RCube.turnCubeZ(true);
-        Stage4();
-        Stage5();
-        Stage6();
-        RCube.turnCubeZ(true);
-        RCube.turnCubeZ(true);
-        
-        return RCube.turnRecord;
+        for (int i =0;i< RemainingColors.Count; i++)
+        {
+            RubiksCube tempRC = parent.cloneCube();
+            tempRC.turnCubeToFaceRGBOColorWithYellowOrWhiteOnTop(RemainingColors[i]);
+            SolveWhiteSideCube(tempRC);
+            List<Color> newRemainingColors = new List<Color>();
+            for (int j = 0; j < RemainingColors.Count; j++) { newRemainingColors.Add(RemainingColors[i]); }
+            newRemainingColors.RemoveAt(i);
+
+            if (newRemainingColors.Count == 0){
+                tree.Add(tempRC);
+                return;
+            }
+            else
+                DFS_Stage2(depth + 1, newRemainingColors, tempRC,tree);
+
+        }
+        return;
     }
 
     public string OptimizedSolution()
