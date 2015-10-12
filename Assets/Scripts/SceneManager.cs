@@ -37,7 +37,8 @@ public class SceneManager : MonoBehaviour {
 
         if (Input.GetKeyUp(KeyCode.S))
         {
-            StopCoroutine(coroutine);
+            if (coroutine != null)
+                StopCoroutine(coroutine);
             RCP.resetCubePrefabPositions();
             RCP.RefreshPanels();
         }
@@ -45,6 +46,9 @@ public class SceneManager : MonoBehaviour {
 
     public void ScrambleCube()
     {
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+
         RCP.RC.Scramble(50);
         RCP.RefreshPanels();
         txtTurnRecord.text = "";
@@ -53,6 +57,9 @@ public class SceneManager : MonoBehaviour {
 
     public void Solve()
     {
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+
         RubiksCube RC = RCP.RC.cloneCube();
         S = new Solver(RC);
         string solution = S.Solution();
@@ -61,8 +68,11 @@ public class SceneManager : MonoBehaviour {
         txtTurnRecord.text = solution;
     }
 
-    public void TrimmedSolve()
+    public void OptimizedSolve()
     {
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+
         RubiksCube RC = RCP.RC.cloneCube();
         S = new Solver(RC);
         string solution = S.TrimmedSolution();
@@ -86,12 +96,18 @@ public class SceneManager : MonoBehaviour {
 
     public void runCheckerboard()
     {
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+
         coroutine = RCP.animateCustomSequence(RCP.RC.sequences[10]);
         StartCoroutine(coroutine);
     }
 
     public void runSixDot()
     {
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+
         coroutine = RCP.animateCustomSequence(RCP.RC.sequences[11]);
         StartCoroutine(coroutine);
     }

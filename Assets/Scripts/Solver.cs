@@ -15,30 +15,6 @@ public class Solver {
     {
         RCube.clearTurnRecord();
 
-        if (RCube.isSolved())
-            return "";//cube is already solved. Quit
-
-        //check for easy solutions
-
-        //check if checkerboard pattern solves it
-        RubiksCube tempRC = RCube.cloneCube();
-        tempRC.RunSequence(10);
-        if (tempRC.isSolved())
-            return RCube.sequences[10];
-
-        //check if dot patter solves it
-        tempRC = RCube.cloneCube();
-        string tempsol = "";
-        for (int i = 0; i < 3; i++)
-        {
-            tempRC.RunSequence(11);
-            tempsol += RCube.sequences[11];
-            if (tempRC.isSolved())
-                return tempsol;
-        }
-
-        //otherwise continue using normal solution pattern
-
         //reorient the cube so that white is on top
         if (RCube.cubeMatrix[1][2][1].getColor(Cube.sides.TOP) != Cube.WHITECOLOR){
             if (RCube.cubeMatrix[1][2][1].getColor(Cube.sides.TOP) == Cube.YELLOWCOLOR){
@@ -66,7 +42,39 @@ public class Solver {
 
     public string TrimmedSolution()
     {
-        string sol = Solution();
+        string sol = "";
+
+        if (RCube.isSolved())
+            return "";//cube is already solved. Quit
+
+        //check for easy solutions
+
+        //check if checkerboard pattern solves it
+        RubiksCube tempRC = RCube.cloneCube();
+        tempRC.RunSequence(10);
+        if (tempRC.isSolved())
+            return RCube.sequences[10];
+
+        //check if dot patter solves it
+        tempRC = RCube.cloneCube();
+        string tempsol = "";
+        for (int i = 0; i < 3; i++)
+        {
+            tempRC.RunSequence(11);
+            tempsol += RCube.sequences[11];
+            if (tempRC.isSolved())
+                return tempsol;
+        }
+
+        //otherwise continue using normal solution pattern
+        sol = Solution();
+        sol = trimTurnRecord(sol);
+
+        return sol;
+    }
+
+    string trimTurnRecord(string sol)
+    {
         bool changesMade = true;
 
         int num = 0;
@@ -76,7 +84,7 @@ public class Solver {
             changesMade = false;
             string tempSol = "";
             string tokA;
-            for (int i = 0; i < sol.Length; i+= tokA.Length)
+            for (int i = 0; i < sol.Length; i += tokA.Length)
             {
                 tokA = getTokenFromSolution(sol, i);
                 string tokB = "";
