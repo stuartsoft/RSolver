@@ -14,6 +14,17 @@ public class Solver {
     public string Solution()
     {
         RCube.clearTurnRecord();
+
+        //check for easy solutions
+
+        //check if checkerboard pattern solves it
+        RubiksCube tempRC = RCube.cloneCube();
+        tempRC.RunSequence(10);
+        if (tempRC.isSolved())
+            return RCube.sequences[10];
+
+        //otherwise continue using normal solution pattern
+
         Stage2();
         Stage3();
         RCube.turnCubeZ(true);

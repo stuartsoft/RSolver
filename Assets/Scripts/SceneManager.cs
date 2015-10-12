@@ -11,6 +11,7 @@ public class SceneManager : MonoBehaviour {
     public Text txtAnimationSpeed;
     public Toggle toggleRotateCamera;
     public bool rotateCamera = true;
+    Vector3 cameraResetPos = new Vector3(4, 4, -4);
 
     void Start()
     {
@@ -22,7 +23,7 @@ public class SceneManager : MonoBehaviour {
         toggleRotateCamera = toggleRotateCamera.GetComponent<Toggle>();
         toggleRotateCamera.isOn = rotateCamera;
 
-        Camera.main.transform.position = new Vector3(5, 5, -5);
+        Camera.main.transform.position = cameraResetPos;
         Camera.main.transform.LookAt(RCP.transform.position);
         //StartCoroutine(RCP.animateCustomSequence(RCP.RC.sequences[10]));
     }
@@ -68,7 +69,7 @@ public class SceneManager : MonoBehaviour {
     public void setCameraRotation(bool on)
     {
         rotateCamera = on;
-        Camera.main.transform.position = new Vector3(5,5,-5);
+        Camera.main.transform.position = cameraResetPos;
         Camera.main.transform.LookAt(RCP.transform.position);
     }
 
