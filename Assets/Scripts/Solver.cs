@@ -472,7 +472,16 @@ public class Solver {
             //we should now have either a matching face on the back or there are not matching faces
             //now run the last sequence
 
-            RCube.RunSequence(9);
+            Color TFM = RCube.cubeMatrix[1][2][0].getColor(Cube.sides.FRONT);
+            Color MRM = RCube.cubeMatrix[2][1][1].getColor(Cube.sides.RIGHT);
+
+            if (TFM == MRM)
+            {
+                Debug.Log(true);
+                RCube.RunSequence(9);
+            }
+            else
+                RCube.RunSequence(8);
         }
     }
 
