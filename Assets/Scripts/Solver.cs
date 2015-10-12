@@ -25,6 +25,19 @@ public class Solver {
 
         //otherwise continue using normal solution pattern
 
+        //reorient the cube so that white is on top
+        if (RCube.cubeMatrix[1][2][1].getColor(Cube.sides.TOP) != Cube.WHITECOLOR){
+            if (RCube.cubeMatrix[1][2][1].getColor(Cube.sides.TOP) == Cube.YELLOWCOLOR){
+                RCube.turnCubeZ(true);
+                RCube.turnCubeZ(true);
+            }
+            else{
+                while(RCube.cubeMatrix[1][1][0].getColor(Cube.sides.TOP) != Cube.WHITECOLOR)
+                {RCube.turnCubeY(true);}//turn the cube until the front is white
+                RCube.turnCubeX(false);
+            }
+        }
+
         Stage2();
         Stage3();
         RCube.turnCubeZ(true);

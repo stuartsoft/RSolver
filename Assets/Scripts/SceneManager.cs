@@ -13,6 +13,8 @@ public class SceneManager : MonoBehaviour {
     public bool rotateCamera = true;
     Vector3 cameraResetPos = new Vector3(4, 4, -4);
 
+    private IEnumerator coroutine;
+
     void Start()
     {
         txtTurnRecord = txtTurnRecord.GetComponent<Text>();
@@ -32,6 +34,13 @@ public class SceneManager : MonoBehaviour {
     {
         if (rotateCamera)
             Camera.main.transform.RotateAround(Vector3.zero, Vector3.up, Time.deltaTime * 10);
+
+        if (Input.GetKeyUp(KeyCode.S))
+        {
+            StopCoroutine(coroutine);
+            RCP.resetCubePrefabPositions();
+            RCP.RefreshPanels();
+        }
     }
 
     public void ScrambleCube()
@@ -47,7 +56,8 @@ public class SceneManager : MonoBehaviour {
         RubiksCube RC = RCP.RC.cloneCube();
         S = new Solver(RC);
         string solution = S.Solution();
-        StartCoroutine(RCP.animateCustomSequence(solution));
+        coroutine = RCP.animateCustomSequence(solution);
+        StartCoroutine(coroutine);
         txtTurnRecord.text = solution;
     }
 
@@ -56,7 +66,8 @@ public class SceneManager : MonoBehaviour {
         RubiksCube RC = RCP.RC.cloneCube();
         S = new Solver(RC);
         string solution = S.TrimmedSolution();
-        StartCoroutine(RCP.animateCustomSequence(solution));
+        coroutine = RCP.animateCustomSequence(solution);
+        StartCoroutine(coroutine);
         txtTurnRecord.text = solution;
     }
 
@@ -75,8 +86,7 @@ public class SceneManager : MonoBehaviour {
 
     public void runCheckerboard()
     {
-        StartCoroutine(RCP.animateCustomSequence(RCP.RC.sequences[10]));
-        //RCP.RC.RunSequence(10);
+        RCP.RC.RunSequence(10);
     }
 
 }

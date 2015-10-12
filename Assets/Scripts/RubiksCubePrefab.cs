@@ -47,7 +47,7 @@ public class RubiksCubePrefab : MonoBehaviour {
 
     }
 
-    void resetCubePrefabPositions()
+    public void resetCubePrefabPositions()
     {
         for (int i = 0; i < 3; i++)
         {
