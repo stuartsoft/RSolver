@@ -25,7 +25,8 @@ public class RubiksCube
         sequences.Add("FFULRiFFLiRUFF");
         sequences.Add("FFUiLRiFFLiRUiFF");
 
-        sequences.Add("LLRRFFBBUUDD");
+        sequences.Add("LLRRFFBBUUDD");//checkerboard
+        sequences.Add("UDiRLiFBiUDi");//six spots
 
         cubeMatrix = new List<List<List<Cube>>>();
 

@@ -23,6 +23,18 @@ public class Solver {
         if (tempRC.isSolved())
             return RCube.sequences[10];
 
+        //check if dot patter solves it
+
+        tempRC = RCube.cloneCube();
+        string tempsol = "";
+        for (int i = 0; i < 3; i++)
+        {
+            tempRC.RunSequence(11);
+            tempsol += RCube.sequences[11];
+            if (tempRC.isSolved())
+                return tempsol;
+        }
+
         //otherwise continue using normal solution pattern
 
         //reorient the cube so that white is on top

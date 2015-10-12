@@ -86,7 +86,14 @@ public class SceneManager : MonoBehaviour {
 
     public void runCheckerboard()
     {
-        RCP.RC.RunSequence(10);
+        coroutine = RCP.animateCustomSequence(RCP.RC.sequences[10]);
+        StartCoroutine(coroutine);
+    }
+
+    public void runSixDot()
+    {
+        coroutine = RCP.animateCustomSequence(RCP.RC.sequences[11]);
+        StartCoroutine(coroutine);
     }
 
 }
