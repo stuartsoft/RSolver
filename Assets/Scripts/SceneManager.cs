@@ -35,13 +35,33 @@ public class SceneManager : MonoBehaviour {
         if (rotateCamera)
             Camera.main.transform.RotateAround(Vector3.zero, Vector3.up, Time.deltaTime * 10);
 
-        if (Input.GetKeyUp(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.H))//halt
         {
             if (coroutine != null)
                 StopCoroutine(coroutine);
             RCP.resetCubePrefabPositions();
             RCP.RefreshPanels();
         }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            OptimizedSolve();
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            Solve();
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            ScrambleCube();
+        }
+        else if (Input.GetKeyDown(KeyCode.F1)){
+            runCheckerboard();
+        }
+        else if (Input.GetKeyDown(KeyCode.F2))
+        {
+            runSixDot();
+        }
+
     }
 
     public void ScrambleCube()
