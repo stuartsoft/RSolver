@@ -77,14 +77,14 @@ public class Solver {
 
         RCube = dfsTree[minCostIndex].cloneCube();
         
-        //Stage3();
-        //RCube.turnCubeZ(true);
-        //RCube.turnCubeZ(true);
-        //Stage4();
-        //Stage5();
-        //Stage6();
-        //RCube.turnCubeZ(true);
-        //RCube.turnCubeZ(true);    
+        Stage3();
+        RCube.turnCubeZ(true);
+        RCube.turnCubeZ(true);
+        Stage4();
+        Stage5();
+        Stage6();
+        RCube.turnCubeZ(true);
+        RCube.turnCubeZ(true);    
         return RCube.turnRecord;
     }
 
@@ -106,7 +106,7 @@ public class Solver {
             tempRC.turnCubeToFaceRGBOColorWithYellowOrWhiteOnTop(RemainingColors[i]);
             SolveWhiteSideCube(tempRC);
             List<Color> newRemainingColors = new List<Color>();
-            for (int j = 0; j < RemainingColors.Count; j++) { newRemainingColors.Add(RemainingColors[i]); }
+            for (int j = 0; j < RemainingColors.Count; j++) { newRemainingColors.Add(RemainingColors[j]); }
             newRemainingColors.RemoveAt(i);
 
             if (newRemainingColors.Count == 0){
