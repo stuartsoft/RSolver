@@ -7,6 +7,7 @@ public class SceneManager : MonoBehaviour {
     public RubiksCubePrefab RCP;
     Solver S;
     public Text txtTurnRecord;
+    public Text txtNumMoves;
     public Slider SpeedSlider;
     public Text txtAnimationSpeed;
     public Toggle toggleRotateCamera;
@@ -20,6 +21,7 @@ public class SceneManager : MonoBehaviour {
         txtTurnRecord = txtTurnRecord.GetComponent<Text>();
         SpeedSlider = SpeedSlider.GetComponent<Slider>();
         txtAnimationSpeed = txtAnimationSpeed.GetComponent<Text>();
+        txtNumMoves = txtNumMoves.GetComponent<Text>();
         SpeedSlider.value = RCP.rotationSpeed;
         setAnimationSpeed(RCP.rotationSpeed);
         toggleRotateCamera = toggleRotateCamera.GetComponent<Toggle>();
@@ -43,7 +45,7 @@ public class SceneManager : MonoBehaviour {
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            OptimizedSolve();
+            SearchedAndTrimmedSolve();
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
@@ -62,46 +64,113 @@ public class SceneManager : MonoBehaviour {
         }
     }
 
+    public void EasyScrambleCube()
+    {
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+
+        RCP.RC.Scramble(3);
+        RCP.RefreshPanels();
+        txtTurnRecord.text = "";
+        txtNumMoves.text = "";
+    }
+
     public void ScrambleCube()
     {
         if (coroutine != null)
             StopCoroutine(coroutine);
 
-        RCP.RC.Scramble(4);
+        RCP.RC.Scramble(50);
         RCP.RefreshPanels();
         txtTurnRecord.text = "";
+        txtNumMoves.text = "";
     }
 
     public void Solve()
     {
+        Debug.Log("Standard Solve");
+
         if (coroutine != null)
             StopCoroutine(coroutine);
 
         RubiksCube RC = RCP.RC.cloneCube();
         S = new Solver(RC);
+
         string solution = S.Solution();
+
         RubiksCube solCube = new RubiksCube();
         solCube.RunCustomSequence(solution);
         coroutine = RCP.animateCustomSequence(solution);
         StartCoroutine(coroutine);
         txtTurnRecord.text = solution;
+        txtNumMoves.text = solCube.TurnRecordTokenCount() + " Moves";
         Debug.Log(solution);
         Debug.Log(solCube.TurnRecordTokenCount() + " Moves");
     }
 
-    public void OptimizedSolve()
+    public void TrimmedSolve()
     {
+        Debug.Log("Trimmed Solve");
+
         if (coroutine != null)
             StopCoroutine(coroutine);
 
         RubiksCube RC = RCP.RC.cloneCube();
         S = new Solver(RC);
-        string solution = S.SearchedAndTrimmedSolution();
+
+        string solution = S.Solution();
+        solution = S.trimTurnRecord(solution);
+
         RubiksCube solCube = new RubiksCube();
         solCube.RunCustomSequence(solution);
         coroutine = RCP.animateCustomSequence(solution);
         StartCoroutine(coroutine);
         txtTurnRecord.text = solution;
+        txtNumMoves.text = solCube.TurnRecordTokenCount() + " Moves";
+        Debug.Log(solution);
+        Debug.Log(solCube.TurnRecordTokenCount() + " Moves");
+    }
+
+    public void SearchedSolve()
+    {
+        Debug.Log("SearchedSolve");
+
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+
+        RubiksCube RC = RCP.RC.cloneCube();
+        S = new Solver(RC);
+
+        string solution = S.SearchedSolution();
+
+        RubiksCube solCube = new RubiksCube();
+        solCube.RunCustomSequence(solution);
+        coroutine = RCP.animateCustomSequence(solution);
+        StartCoroutine(coroutine);
+        txtTurnRecord.text = solution;
+        txtNumMoves.text = solCube.TurnRecordTokenCount() + " Moves";
+        Debug.Log(solution);
+        Debug.Log(solCube.TurnRecordTokenCount() + " Moves");
+    }
+
+    public void SearchedAndTrimmedSolve()
+    {
+        Debug.Log("SearchedAndTrimmedSolve");
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+
+        RubiksCube RC = RCP.RC.cloneCube();
+        S = new Solver(RC);
+
+        string solution = S.SearchedSolution();
+        solution = S.trimTurnRecord(solution);
+
+        RubiksCube solCube = new RubiksCube();
+        solCube.RunCustomSequence(solution);
+        coroutine = RCP.animateCustomSequence(solution);
+        StartCoroutine(coroutine);
+        txtTurnRecord.text = solution;
+        txtNumMoves.text = solCube.TurnRecordTokenCount() + " Moves";
         Debug.Log(solution);
         Debug.Log(solCube.TurnRecordTokenCount() + " Moves");
     }

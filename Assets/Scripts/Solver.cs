@@ -43,6 +43,29 @@ public class Solver {
 
     public string SearchedSolution()
     {
+        if (RCube.isSolved())
+            return "";//cube is already solved. Quit
+
+        //check for easy solutions
+
+        //check if checkerboard pattern solves it
+        RubiksCube tempRC = RCube.cloneCube();
+        tempRC.RunSequence(10);
+        if (tempRC.isSolved())
+            return RCube.sequences[10];
+
+        //check if dot patter solves it
+        tempRC = RCube.cloneCube();
+        string tempsol = "";
+        for (int i = 0; i < 3; i++)
+        {
+            tempRC.RunSequence(11);
+            tempsol += RCube.sequences[11];
+            if (tempRC.isSolved())
+                return tempsol;
+        }
+
+
         RCube.clearTurnRecord();
 
         //reorient the cube so that white is on top
@@ -63,7 +86,7 @@ public class Solver {
 
         //run initial dfs check to maybe find easy solutions in 4 turns or less
         List<RubiksCube> dfsTree = new List<RubiksCube>();
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 3; i++)
         {
             DFS_InitialCheck(0, i, RCube.cloneCube(), dfsTree);
             for (int j = 0; j < dfsTree.Count; j++)
@@ -73,6 +96,8 @@ public class Solver {
             }
         }
         
+        //begin running actual solution with intermediate dfs optimization
+
         dfsTree = new List<RubiksCube>();
         DFS_Stage2(0, null, RCube.cloneCube(), dfsTree);
 
@@ -259,39 +284,7 @@ public class Solver {
         }
     }
 
-    public string SearchedAndTrimmedSolution()
-    {
-        string sol = "";
-        if (RCube.isSolved())
-          return "";//cube is already solved. Quit
-
-        //check for easy solutions
-
-        //check if checkerboard pattern solves it
-        RubiksCube tempRC = RCube.cloneCube();
-        tempRC.RunSequence(10);
-        if (tempRC.isSolved())
-            return RCube.sequences[10];
-
-        //check if dot patter solves it
-        tempRC = RCube.cloneCube();
-        string tempsol = "";
-        for (int i = 0; i < 3; i++)
-        {
-            tempRC.RunSequence(11);
-            tempsol += RCube.sequences[11];
-            if (tempRC.isSolved())
-                return tempsol;
-        }
-
-        //otherwise continue using normal solution pattern
-        sol = SearchedSolution();
-        sol = trimTurnRecord(sol);
-
-        return sol;
-    }
-
-    string trimTurnRecord(string sol)
+    public string trimTurnRecord(string sol)
     {
         bool changesMade = true;
 
