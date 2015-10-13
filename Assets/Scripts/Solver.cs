@@ -30,17 +30,19 @@ public class Solver {
         
         Stage2();
         Stage3();
+
+        /*
         RCube.turnCubeZ(true);
         RCube.turnCubeZ(true);
         Stage4();
         Stage5();
         Stage6();
         RCube.turnCubeZ(true);
-        RCube.turnCubeZ(true);
+        RCube.turnCubeZ(true);*/
         return RCube.turnRecord;
     }
 
-    string SearchedSolution()
+    public string SearchedSolution()
     {
         RCube.clearTurnRecord();
 
@@ -76,15 +78,34 @@ public class Solver {
         }
 
         RCube = dfsTree[minCostIndex].cloneCube();
-        
-        Stage3();
+
+        //start stage 3 DFS
+
+        dfsTree = new List<RubiksCube>();
+        DFS_Stage3(0, null, RCube.cloneCube(), dfsTree);
+
+        minCost = 9999;
+        minCostIndex = 0;
+        for (int i = 0; i < dfsTree.Count; i++){
+            int cost = dfsTree[i].TurnRecordTokenCount();
+            if (cost < minCost)
+            {
+                minCost = cost;
+                minCostIndex = i;
+            }
+        }
+
+        RCube = dfsTree[minCostIndex].cloneCube();
+
+        /*
         RCube.turnCubeZ(true);
         RCube.turnCubeZ(true);
         Stage4();
         Stage5();
         Stage6();
         RCube.turnCubeZ(true);
-        RCube.turnCubeZ(true);    
+        RCube.turnCubeZ(true);*/
+
         return RCube.turnRecord;
     }
 
@@ -120,7 +141,40 @@ public class Solver {
         return;
     }
 
-    public string OptimizedSolution()
+    void DFS_Stage3(int depth, List<Color> RemainingColors, RubiksCube parent, List<RubiksCube> tree)
+    {
+        //Debug.Log("Depth: " + depth);
+        if (depth == 0)//first iteration
+        {
+            RemainingColors = new List<Color>();
+            RemainingColors.Add(Cube.REDCOLOR);
+            RemainingColors.Add(Cube.GREENCOLOR);
+            RemainingColors.Add(Cube.ORANGECOLOR);
+            RemainingColors.Add(Cube.BLUECOLOR);
+        }
+
+        for (int i = 0; i < RemainingColors.Count; i++)
+        {
+            RubiksCube tempRC = parent.cloneCube();
+            tempRC.turnCubeToFaceRGBOColorWithYellowOrWhiteOnTop(RemainingColors[i]);
+            SolveWhiteCornerCube(tempRC);
+            List<Color> newRemainingColors = new List<Color>();
+            for (int j = 0; j < RemainingColors.Count; j++) { newRemainingColors.Add(RemainingColors[j]); }
+            newRemainingColors.RemoveAt(i);
+
+            if (newRemainingColors.Count == 0)
+            {
+                tree.Add(tempRC);
+                return;
+            }
+            else
+                DFS_Stage3(depth + 1, newRemainingColors, tempRC, tree);
+
+        }
+        return;
+    }
+
+    public string SearchedAndTrimmedSolution()
     {
         string sol = "";
         if (RCube.isSolved())
@@ -306,62 +360,67 @@ public class Solver {
     {
         for (int i = 0; i < 4; i++)
         {
-            Color TargetColorA = RCube.cubeMatrix[1][1][0].getColor(Cube.sides.FRONT);//front center
-            Color TargetColorB = RCube.cubeMatrix[2][1][1].getColor(Cube.sides.RIGHT);//right center
-            //Debug.Log("TargetColors: " + TargetColorA + TargetColorB);
-            Vector3 Pos = RCube.cornerCubeWithColors(TargetColorA, TargetColorB, Cube.WHITECOLOR);
-            //Debug.Log("Pos: " + Pos);
-            Vector3 TargetPos = new Vector3(2, 2, 0);
-            //Debug.Log("TargetPos: " + TargetPos);
-
-            if (TargetPos != Pos)//not in the right spot
-            {
-                if (Pos.y == 2)//in the top but in the wrong spot
-                {
-                    if (Pos.z == 0)//top front left pos
-                    {
-                        RCube.rotateLeftFace(true);
-                        RCube.rotateBottomFace(true);
-                        RCube.rotateLeftFace(false);
-                    }
-                    if (Pos.z == 2)//top back left or top back right
-                    {
-                        if (Pos.x == 0)
-                        {
-                            RCube.rotateLeftFace(false);
-                            RCube.rotateBottomFace(true);
-                            RCube.rotateLeftFace(true);
-                        }
-                        if (Pos.x == 2)
-                        {
-                            RCube.rotateRightFace(true);
-                            RCube.rotateBottomFace(true);
-                            RCube.rotateRightFace(false);
-                        }
-                    }
-                }
-                //cube is now on the bottom
-                Pos = RCube.cornerCubeWithColors(TargetColorA, TargetColorB, Cube.WHITECOLOR);
-                while (Pos != new Vector3(2, 0, 0))
-                {
-                    RCube.rotateBottomFace(true);
-                    Pos = RCube.cornerCubeWithColors(TargetColorA, TargetColorB, Cube.WHITECOLOR);
-                }
-                //cube should now be directly below it's target position or already in target position
-            }
-
-            while (true)
-            {
-                Pos = RCube.cornerCubeWithColors(TargetColorA, TargetColorB, Cube.WHITECOLOR);
-                Cube tempCube = RCube.cubeMatrix[(int)Pos.x][(int)Pos.y][(int)Pos.z];
-                if (Pos == TargetPos && tempCube.getColor(Cube.sides.FRONT) == TargetColorA && tempCube.getColor(Cube.sides.TOP) == Cube.WHITECOLOR)
-                    break;
-
-                RCube.RunSequence(1);
-            }
-
+            SolveWhiteCornerCube(RCube);
             RCube.turnCubeY(true);
         }
+    }
+
+    void SolveWhiteCornerCube(RubiksCube RC)
+    {
+        Color TargetColorA = RC.cubeMatrix[1][1][0].getColor(Cube.sides.FRONT);//front center
+        Color TargetColorB = RC.cubeMatrix[2][1][1].getColor(Cube.sides.RIGHT);//right center
+                                                                                  //Debug.Log("TargetColors: " + TargetColorA + TargetColorB);
+        Vector3 Pos = RC.cornerCubeWithColors(TargetColorA, TargetColorB, Cube.WHITECOLOR);
+        //Debug.Log("Pos: " + Pos);
+        Vector3 TargetPos = new Vector3(2, 2, 0);
+        //Debug.Log("TargetPos: " + TargetPos);
+
+        if (TargetPos != Pos)//not in the right spot
+        {
+            if (Pos.y == 2)//in the top but in the wrong spot
+            {
+                if (Pos.z == 0)//top front left pos
+                {
+                    RC.rotateLeftFace(true);
+                    RC.rotateBottomFace(true);
+                    RC.rotateLeftFace(false);
+                }
+                if (Pos.z == 2)//top back left or top back right
+                {
+                    if (Pos.x == 0)
+                    {
+                        RC.rotateLeftFace(false);
+                        RC.rotateBottomFace(true);
+                        RC.rotateLeftFace(true);
+                    }
+                    if (Pos.x == 2)
+                    {
+                        RC.rotateRightFace(true);
+                        RC.rotateBottomFace(true);
+                        RC.rotateRightFace(false);
+                    }
+                }
+            }
+            //cube is now on the bottom
+            Pos = RC.cornerCubeWithColors(TargetColorA, TargetColorB, Cube.WHITECOLOR);
+            while (Pos != new Vector3(2, 0, 0))
+            {
+                RC.rotateBottomFace(true);
+                Pos = RC.cornerCubeWithColors(TargetColorA, TargetColorB, Cube.WHITECOLOR);
+            }
+            //cube should now be directly below it's target position or already in target position
+        }
+
+        while (true)
+        {
+            Pos = RC.cornerCubeWithColors(TargetColorA, TargetColorB, Cube.WHITECOLOR);
+            Cube tempCube = RC.cubeMatrix[(int)Pos.x][(int)Pos.y][(int)Pos.z];
+            if (Pos == TargetPos && tempCube.getColor(Cube.sides.FRONT) == TargetColorA && tempCube.getColor(Cube.sides.TOP) == Cube.WHITECOLOR)
+                break;
+
+            RC.RunSequence(1);
+        }
+        
     }
 
     void Stage4()//solve the middle row side cubes...
