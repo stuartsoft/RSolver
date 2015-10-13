@@ -569,7 +569,7 @@ public class RubiksCube
         return cost;
     }
 
-    int RunCustomSequence(string seq)
+    public int RunCustomSequence(string seq)
     {
         int cost = 0;
         int step = 0;

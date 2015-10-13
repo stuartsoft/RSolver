@@ -40,7 +40,7 @@ public class Solver {
         return RCube.turnRecord;
     }
 
-    public string SearchedSolution()
+    string SearchedSolution()
     {
         RCube.clearTurnRecord();
 

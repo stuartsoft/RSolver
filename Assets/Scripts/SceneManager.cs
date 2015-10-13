@@ -80,11 +80,13 @@ public class SceneManager : MonoBehaviour {
         RubiksCube RC = RCP.RC.cloneCube();
         S = new Solver(RC);
         string solution = S.Solution();
+        RubiksCube solCube = new RubiksCube();
+        solCube.RunCustomSequence(solution);
         coroutine = RCP.animateCustomSequence(solution);
         StartCoroutine(coroutine);
         txtTurnRecord.text = solution;
-        Debug.Log(RC.turnRecord);
-        Debug.Log(RC.TurnRecordTokenCount() + " Moves");
+        Debug.Log(solution);
+        Debug.Log(solCube.TurnRecordTokenCount() + " Moves");
     }
 
     public void OptimizedSolve()
@@ -95,11 +97,13 @@ public class SceneManager : MonoBehaviour {
         RubiksCube RC = RCP.RC.cloneCube();
         S = new Solver(RC);
         string solution = S.OptimizedSolution();
+        RubiksCube solCube = new RubiksCube();
+        solCube.RunCustomSequence(solution);
         coroutine = RCP.animateCustomSequence(solution);
         StartCoroutine(coroutine);
         txtTurnRecord.text = solution;
-        //Debug.Log(solution);
-        //Debug.Log(RC.TurnRecordTokenCount() + " Moves");
+        Debug.Log(solution);
+        Debug.Log(solCube.TurnRecordTokenCount() + " Moves");
     }
 
     public void setAnimationSpeed(float speed)
