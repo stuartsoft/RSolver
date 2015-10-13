@@ -96,7 +96,7 @@ public class SceneManager : MonoBehaviour {
 
         RubiksCube RC = RCP.RC.cloneCube();
         S = new Solver(RC);
-        string solution = S.SearchedSolution();
+        string solution = S.SearchedAndTrimmedSolution();
         RubiksCube solCube = new RubiksCube();
         solCube.RunCustomSequence(solution);
         coroutine = RCP.animateCustomSequence(solution);
