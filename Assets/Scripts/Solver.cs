@@ -30,7 +30,6 @@ public class Solver {
         
         Stage2();
         Stage3();
-
         
         RCube.turnCubeZ(true);
         RCube.turnCubeZ(true);
@@ -62,7 +61,19 @@ public class Solver {
             }
         }
 
+        //run initial dfs check to maybe find easy solutions in 4 turns or less
         List<RubiksCube> dfsTree = new List<RubiksCube>();
+        for (int i = 0; i < 4; i++)
+        {
+            DFS_InitialCheck(0, i, RCube.cloneCube(), dfsTree);
+            for (int j = 0; j < dfsTree.Count; j++)
+            {
+                if (dfsTree[j].isSolved())
+                    return dfsTree[j].turnRecord;
+            }
+        }
+        
+        dfsTree = new List<RubiksCube>();
         DFS_Stage2(0, null, RCube.cloneCube(), dfsTree);
 
         int minCost = 9999;
@@ -225,6 +236,27 @@ public class Solver {
 
         }
         return;
+    }
+
+    void DFS_InitialCheck(int depth, int depthLimit, RubiksCube parent, List<RubiksCube> tree)
+    {
+        string[] operations = { "R", "L", "U", "D", "F", "B" };//each operation also has an inverse
+        for (int i = 0; i < operations.Length; i++)
+        {
+            RubiksCube tempRC = parent.cloneCube();
+            tempRC.RunCustomSequence(operations[i]);
+            if (depth == depthLimit)
+                tree.Add(tempRC);
+            else
+                DFS_InitialCheck(depth + 1, depthLimit, tempRC, tree);
+
+            RubiksCube tempRC2 = parent.cloneCube();
+            tempRC2.RunCustomSequence(operations[i] + "i");
+            if (depth == depthLimit)
+                tree.Add(tempRC2);
+            else
+                DFS_InitialCheck(depth + 1, depthLimit, tempRC2, tree);
+        }
     }
 
     public string SearchedAndTrimmedSolution()

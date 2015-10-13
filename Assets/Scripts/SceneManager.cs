@@ -67,7 +67,7 @@ public class SceneManager : MonoBehaviour {
         if (coroutine != null)
             StopCoroutine(coroutine);
 
-        RCP.RC.Scramble(50);
+        RCP.RC.Scramble(4);
         RCP.RefreshPanels();
         txtTurnRecord.text = "";
     }
