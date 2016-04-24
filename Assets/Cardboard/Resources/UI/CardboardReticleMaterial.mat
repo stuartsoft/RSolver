@@ -81,6 +81,10 @@ Material:
     m_Floats:
       data:
         first:
+          name: _Radius
+        second: 0
+      data:
+        first:
           name: _SrcBlend
         second: 1
       data:
@@ -89,16 +93,12 @@ Material:
         second: 0
       data:
         first:
-          name: _Radius
-        second: 0
-      data:
-        first:
           name: _Cutoff
-        second: .5
+        second: 0.5
       data:
         first:
           name: _Parallax
-        second: .0199999996
+        second: 0.02
       data:
         first:
           name: _ZWrite
@@ -106,7 +106,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .5
+        second: 0.5
       data:
         first:
           name: _BumpScale
@@ -146,7 +146,7 @@ Material:
       data:
         first:
           name: _Border
-        second: .0149999997
+        second: 0.015
     m_Colors:
       data:
         first:

@@ -11,6 +11,19 @@ public class SceneManager : MonoBehaviour {
     public bool rotateCamera = true;
     Vector3 cameraResetPos = new Vector3(4, 4, -4);
 
+    public GameObject cardboardReticle;
+
+    // "Long" gaze timers
+    float gazeScrambleTime = 0.0f;
+    float gazeSolveTime = 0.0f;
+    float gazeSolveDFSTime = 0.0f;
+
+    bool gazingAtScamble = false;
+    bool gazingAtSolve = false;
+    bool gazingAtSolveDFS = false;
+
+    const float gazeTimeToActivate = 2.0f;//seconds required to look at a button before it activates
+
     private IEnumerator coroutine;
 
     void Start()
@@ -25,6 +38,55 @@ public class SceneManager : MonoBehaviour {
 
     public void Update()
     {
+        if(gazingAtScamble||gazingAtSolve || gazingAtSolveDFS)
+        {
+            Renderer rend = cardboardReticle.GetComponent<Renderer>();
+            float fraction = 0.0f;
+
+            if (gazingAtScamble)
+            {
+                gazeScrambleTime += Time.deltaTime;
+                fraction = gazeScrambleTime / gazeTimeToActivate;
+            }
+            if (gazingAtSolve)
+            {
+                gazeSolveTime += Time.deltaTime;
+                fraction = gazeSolveTime / gazeTimeToActivate;
+            }
+            if (gazingAtSolveDFS)
+            {
+                gazeSolveDFSTime += Time.deltaTime;
+                fraction = gazeSolveDFSTime / gazeTimeToActivate;
+            }
+
+            rend.material.SetColor("_Color", new Color(1.0f-fraction, 1.0f-(fraction/3), 1.0f-fraction));
+        }
+
+        if (gazeScrambleTime >= gazeTimeToActivate)
+        {
+            ScrambleCube();
+            gazeScrambleTime = 0.0f;
+            Renderer rend = cardboardReticle.GetComponent<Renderer>();
+            rend.material.SetColor("_Color", Color.white);
+
+        }
+
+        if (gazeSolveTime >= gazeTimeToActivate)
+        {
+            Solve();
+            gazeSolveTime = 0.0f;
+            Renderer rend = cardboardReticle.GetComponent<Renderer>();
+            rend.material.SetColor("_Color", Color.white);
+        }
+
+        if (gazeSolveDFSTime >= gazeTimeToActivate)
+        {
+            SearchedAndTrimmedSolve();
+            gazeSolveDFSTime = 0.0f;
+            Renderer rend = cardboardReticle.GetComponent<Renderer>();
+            rend.material.SetColor("_Color", Color.white);
+        }
+
         if (rotateCamera)
             Camera.main.transform.RotateAround(Vector3.zero, Vector3.up, Time.deltaTime * 10);
 
@@ -65,6 +127,38 @@ public class SceneManager : MonoBehaviour {
         RCP.RefreshPanels();
         txtTurnRecord.text = "";
         txtNumMoves.text = "";
+    }
+
+    public void GazeEnter(string txt)
+    {
+        if (txt == "Deep Scramble")
+            gazingAtScamble = true;
+        else if (txt == "Standard Solve")
+            gazingAtSolve = true;
+        else if (txt == "DFS Solve")
+            gazingAtSolveDFS = true;
+    }
+
+    public void GazeExit(string txt)
+    {
+        if (txt == "Deep Scramble")
+        {
+            gazingAtScamble = false;
+            gazeScrambleTime = 0.0f;
+        }
+        else if (txt == "Standard Solve")
+        {
+            gazingAtSolve = false;
+            gazeSolveTime = 0.0f;
+        }
+        else if (txt == "DFS Solve")
+        {
+            gazingAtSolveDFS = false;
+            gazeSolveDFSTime = 0.0f; 
+        }
+
+        Renderer rend = cardboardReticle.GetComponent<Renderer>();
+        rend.material.SetColor("_Color", Color.white);
     }
 
     public void ScrambleCube()
