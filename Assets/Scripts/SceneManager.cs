@@ -8,9 +8,6 @@ public class SceneManager : MonoBehaviour {
     Solver S;
     public Text txtTurnRecord;
     public Text txtNumMoves;
-    public Slider SpeedSlider;
-    public Text txtAnimationSpeed;
-    public Toggle toggleRotateCamera;
     public bool rotateCamera = true;
     Vector3 cameraResetPos = new Vector3(4, 4, -4);
 
@@ -19,13 +16,8 @@ public class SceneManager : MonoBehaviour {
     void Start()
     {
         txtTurnRecord = txtTurnRecord.GetComponent<Text>();
-        SpeedSlider = SpeedSlider.GetComponent<Slider>();
-        txtAnimationSpeed = txtAnimationSpeed.GetComponent<Text>();
         txtNumMoves = txtNumMoves.GetComponent<Text>();
-        SpeedSlider.value = RCP.rotationSpeed;
         setAnimationSpeed(RCP.rotationSpeed);
-        toggleRotateCamera = toggleRotateCamera.GetComponent<Toggle>();
-        toggleRotateCamera.isOn = rotateCamera;
 
         Camera.main.transform.position = cameraResetPos;
         Camera.main.transform.LookAt(RCP.transform.position);
@@ -177,7 +169,6 @@ public class SceneManager : MonoBehaviour {
 
     public void setAnimationSpeed(float speed)
     {
-        txtAnimationSpeed.text = "Animation Speed: " + (int)speed;
         RCP.rotationSpeed = speed;
     }
 
