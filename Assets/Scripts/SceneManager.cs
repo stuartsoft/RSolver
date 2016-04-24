@@ -8,7 +8,6 @@ public class SceneManager : MonoBehaviour {
     Solver S;
     public Text txtTurnRecord;
     public Text txtNumMoves;
-    public bool rotateCamera = true;
     Vector3 cameraResetPos = new Vector3(4, 4, -4);
 
     public GameObject cardboardReticle;
@@ -22,7 +21,7 @@ public class SceneManager : MonoBehaviour {
     bool gazingAtSolve = false;
     bool gazingAtSolveDFS = false;
 
-    const float gazeTimeToActivate = 1.5f;//seconds required to look at a button before it activates
+    const float gazeTimeToActivate = 2.0f;//seconds required to look at a button before it activates
 
     private IEnumerator coroutine;
 
@@ -66,6 +65,8 @@ public class SceneManager : MonoBehaviour {
         {
             ScrambleCube();
             gazeScrambleTime = 0.0f;
+            RCP.rotateCube = false;
+            RCP.transform.rotation = Quaternion.identity;
             Renderer rend = cardboardReticle.GetComponent<Renderer>();
             rend.material.SetColor("_Color", Color.white);
 
@@ -74,6 +75,8 @@ public class SceneManager : MonoBehaviour {
         if (gazeSolveTime >= gazeTimeToActivate)
         {
             Solve();
+            RCP.rotateCube = false;
+            RCP.transform.rotation = Quaternion.identity;
             gazeSolveTime = 0.0f;
             Renderer rend = cardboardReticle.GetComponent<Renderer>();
             rend.material.SetColor("_Color", Color.white);
@@ -82,13 +85,12 @@ public class SceneManager : MonoBehaviour {
         if (gazeSolveDFSTime >= gazeTimeToActivate)
         {
             SearchedAndTrimmedSolve();
+            RCP.rotateCube = false;
+            RCP.transform.rotation = Quaternion.identity;
             gazeSolveDFSTime = 0.0f;
             Renderer rend = cardboardReticle.GetComponent<Renderer>();
             rend.material.SetColor("_Color", Color.white);
         }
-
-        if (rotateCamera)
-            Camera.main.transform.RotateAround(Vector3.zero, Vector3.up, Time.deltaTime * 10);
 
         if (Input.GetKeyDown(KeyCode.H))//halt
         {
@@ -264,13 +266,6 @@ public class SceneManager : MonoBehaviour {
     public void setAnimationSpeed(float speed)
     {
         RCP.rotationSpeed = speed;
-    }
-
-    public void setCameraRotation(bool on)
-    {
-        rotateCamera = on;
-        Camera.main.transform.position = cameraResetPos;
-        Camera.main.transform.LookAt(RCP.transform.position);
     }
 
     public void runCheckerboard()

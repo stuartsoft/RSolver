@@ -10,6 +10,7 @@ public class RubiksCubePrefab : MonoBehaviour {
     public List<List<List<GameObject>>> cubePrefabMatrix;
     public float spacing = 1.05f;
     public float rotationSpeed = 40;
+    public bool rotateCube = true;
 
     // Use this for initialization
     void Start () {
@@ -39,6 +40,12 @@ public class RubiksCubePrefab : MonoBehaviour {
     void Update()
     {
         RefreshPanels();
+
+        if (rotateCube)
+        {
+            transform.Rotate(Vector3.up * Time.deltaTime * 10, Space.World);
+            transform.Rotate(Vector3.right * Time.deltaTime * 10, Space.World);
+        }
     }
 
     public void resetCubePrefabPositions()
@@ -188,6 +195,7 @@ public class RubiksCubePrefab : MonoBehaviour {
             RefreshPanels();
         }
 
+        rotateCube = true;//start rotating cube again to show off the solved cube
         yield return null;
     }
 
