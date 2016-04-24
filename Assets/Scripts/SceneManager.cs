@@ -22,7 +22,7 @@ public class SceneManager : MonoBehaviour {
     bool gazingAtSolve = false;
     bool gazingAtSolveDFS = false;
 
-    const float gazeTimeToActivate = 2.0f;//seconds required to look at a button before it activates
+    const float gazeTimeToActivate = 1.5f;//seconds required to look at a button before it activates
 
     private IEnumerator coroutine;
 
