@@ -19,8 +19,8 @@ public class SceneManager : MonoBehaviour {
         txtNumMoves = txtNumMoves.GetComponent<Text>();
         setAnimationSpeed(RCP.rotationSpeed);
 
-        Camera.main.transform.position = cameraResetPos;
-        Camera.main.transform.LookAt(RCP.transform.position);
+        //Camera.main.transform.position = cameraResetPos;
+        //Camera.main.transform.LookAt(RCP.transform.position);
     }
 
     public void Update()
